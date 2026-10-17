@@ -1,0 +1,23 @@
+{
+  "source": "upstream/ohcodium-runtime/ohos_hap/hnp/arm64-v8a/electron.hnp",
+  "sourceSha256": "0e14fbd1dd51f5dc6afa396de7e6b024f80d839c854b675a18a9a7e891fbc385",
+  "output": "harmony/DrawioHarmony/hnp/arm64-v8a/electron.hnp",
+  "outputSha256": "26142e7192bc17f80796dab38a77d39f9450f6eff9088ce2ff8ebf0ce2664b64",
+  "permissionPolicy": {
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.kernel.ALLOW_WRITABLE_CODE_MEMORY"
+      },
+      {
+        "name": "ohos.permission.INHERIT_PARENT_PERMISSION"
+      }
+    ]
+  },
+  "patched": [
+    {
+      "path": "electron37/bin/electron/electron",
+      "bytes": 6784,
+      "sha256": "ff452fa87ba97ca58322b641a81fd600e3590e642d8d6e5c66c90eafc689a8c0"
+    }
+  ]
+}

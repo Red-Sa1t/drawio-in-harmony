@@ -1,0 +1,7 @@
+{
+  "name": "drawio-harmony-runtime-probe",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Device capability evidence for the draw.io HarmonyOS migration",
+  "main": "main.cjs"
+}

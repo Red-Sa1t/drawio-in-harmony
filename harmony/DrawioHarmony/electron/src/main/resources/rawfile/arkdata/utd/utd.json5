@@ -1,0 +1,12 @@
+{
+  "UniformDataTypeDeclarations": [
+    {
+      "TypeId": "com.neuohos.drawio.diagram",
+      "BelongingToTypes": ["general.xml"],
+      "FilenameExtensions": [".drawio", ".dio"],
+      "MIMETypes": ["application/vnd.jgraph.mxfile"],
+      "Description": "draw.io 图表",
+      "ReferenceURL": ""
+    }
+  ]
+}

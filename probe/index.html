@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'">
+  <title>draw.io 迁移运行时验证</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>draw.io 迁移运行时验证</h1>
+    <p>目标：HarmonyOS 6.1.0 / API 23。此工具验证运行时能力，完整编辑器的功能验收另行进行。</p>
+    <p id="status" role="status">等待隔离桥接初始化…</p>
+    <section aria-label="自动验证">
+      <button data-operation="automatic">运行基础验证</button>
+      <button data-operation="save-report">导出 JSON 报告</button>
+      <button data-operation="runtime-tray">注册测试状态栏图标</button>
+      <button data-operation="visible-window">打开第二个可见窗口</button>
+    </section>
+    <section aria-label="手动验证">
+      <p>剪贴板测试会覆盖当前剪贴板；文件测试仅读取选择的文件；打印按钮会打开系统打印流程。</p>
+      <button data-operation="clipboard">测试文本、图片和 HTML 剪贴板</button>
+      <button data-operation="open-file">选择并读取文件</button>
+      <button data-operation="save-file">另存测试文件</button>
+      <button data-operation="print">打开打印流程</button>
+    </section>
+    <section class="fixture" aria-label="渲染样本">
+      <h2>中文字体与矢量图样本</h2>
+      <svg width="400" height="100" viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="15" width="130" height="70" rx="8" fill="#dae8fc" stroke="#6c8ebf"/>
+        <text x="70" y="56" text-anchor="middle">开始 / Start</text>
+        <path d="M135 50 H260 l-10 -6 M260 50 l-10 6" fill="none" stroke="#333"/>
+        <rect x="260" y="15" width="130" height="70" rx="8" fill="#d5e8d4" stroke="#82b366"/>
+        <text x="325" y="56" text-anchor="middle">完成 / End</text>
+      </svg>
+      <label>输入法 / 右键编辑测试 <input value="中文输入与 text selection"></label>
+    </section>
+    <pre id="report" aria-label="验证报告"></pre>
+  </main>
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Whitelist: only the porting sources, scripts and docs are published.
+/*
+!/.gitignore
+!/.gitmodules
+!/*.md
+!/LICENSE
+!/application/
+!/harmony/
+!/probe/
+!/scripts/
+!/store-listing/
+!/third_party_licenses/
+!/validation/
+
+# Validation: keep only the records the build/verify scripts read.
+/validation/*
+!/validation/runtime-candidate.json
+!/validation/application-payload.json
+!/validation/electron-hnp-permission.json
+
+# draw.io desktop payload: dependencies are installed with npm.
+/application/node_modules/
+
+# HarmonyOS project: build outputs, caches and IDE state.
+/harmony/**/build/
+/harmony/**/oh_modules/
+/harmony/**/.hvigor/
+/harmony/**/.idea/
+/harmony/**/.preview/
+/harmony/**/local.properties
+
+# Electron runtime binaries (OHCodium, see RUNTIME.md) and the staged payload are
+# not redistributed here; scripts regenerate them from the runtime checkout.
+/harmony/DrawioHarmony/hnp/
+/harmony/DrawioHarmony/electron/libs/
+/harmony/DrawioHarmony/web_engine/src/main/resources/resfile/
+
+# Signing material must never be committed.
+*.p12
+*.p7b
+*.cer
+*.csr
+*.jks
+material/

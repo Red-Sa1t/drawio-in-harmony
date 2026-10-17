@@ -1,0 +1,36 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Draw.io in Harmony diagram editor"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "button_ok",
+      "value": "ok"
+    },
+    {
+      "name": "button_cancel",
+      "value": "cancel"
+    },
+    {
+      "name": "StatusBarEntryAbility_desc",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "StatusBarEntryAbility_label",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "OpenNewWindow_label",
+      "value": "Open New Window"
+    }
+  ]
+}

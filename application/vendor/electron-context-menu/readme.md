@@ -1,0 +1,492 @@
+# electron-context-menu
+
+> Context menu for your [Electron](https://electronjs.org) app
+
+<img src="screenshot.png" width="125" align="right">
+
+Electron doesn't have a built-in context menu. You're supposed to handle that yourself. But it's both tedious and hard to get right. This module gives you a nice extensible context menu with spellchecking and items like `Cut`/`Copy`/`Paste` for text, `Save Image` for images, and `Copy Link` for links. It also adds an `Inspect Element` menu item when in development to quickly view items in the inspector like in Chrome.
+
+This package can only be used in the main process.
+
+## Install
+
+```sh
+npm install electron-context-menu
+```
+
+*Requires Electron 44 or later.*
+
+## Usage
+
+```js
+import {app, BrowserWindow} from 'electron';
+import contextMenu from 'electron-context-menu';
+
+contextMenu({
+	showSaveImageAs: true
+});
+
+let mainWindow;
+(async () => {
+	await app.whenReady();
+
+	mainWindow = new BrowserWindow();
+})();
+```
+
+Advanced example:
+
+```js
+import {app, BrowserWindow, shell} from 'electron';
+import contextMenu from 'electron-context-menu';
+
+contextMenu({
+	prepend: (defaultActions, parameters, browserWindow) => [
+		{
+			label: 'Rainbow',
+			// Only show it when right-clicking images
+			visible: parameters.mediaType === 'image'
+		},
+		{
+			label: 'Search Google for “{selection}”',
+			// Only show it when right-clicking text
+			visible: parameters.selectionText.trim().length > 0,
+			click: () => {
+				shell.openExternal(`https://google.com/search?q=${encodeURIComponent(parameters.selectionText)}`);
+			}
+		}
+	]
+});
+
+let mainWindow;
+(async () => {
+	await app.whenReady();
+
+	mainWindow = new BrowserWindow();
+})();
+```
+
+The return value of `contextMenu()` is a function that disposes of the created event listeners:
+
+```js
+const dispose = contextMenu();
+
+dispose();
+```
+
+## API
+
+### contextMenu(options?)
+
+Creates a context menu and returns a dispose function.
+
+### options
+
+Type: `object`
+
+#### window
+
+Type: `BrowserWindow | BrowserView | WebContents | WebContentsView`
+
+Window or view to add the context menu to.
+
+To attach it to a `<webview>`, pass its `WebContents`, which you can get in the main process with `webContents.fromId(...)` using the id from `webview.getWebContentsId()`.
+
+When not specified, the context menu will be added to all existing and new windows.
+
+#### prepend
+
+Type: `Function`
+
+Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/) to be prepended to the context menu.
+
+The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is the context menu event.
+
+A menu item with an `id` matching one of the default action names (for example `copy`) replaces that default action, and stays where `prepend` put it. The default action is replaced even when the custom item is not visible.
+
+`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
+
+#### append
+
+Type: `Function`
+
+Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/) to be appended to the context menu.
+
+The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is the context menu event.
+
+A menu item with an `id` matching one of the default action names (for example `copy`) replaces that default action, and stays where `append` put it. The default action is replaced even when the custom item is not visible.
+
+`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
+
+#### showLearnSpelling
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Learn Spelling {selection}` menu item when right-clicking text.
+
+The spellcheck will only show when right-clicking misspelled words.
+
+#### showLookUpSelection
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Look Up {selection}` menu item when right-clicking text.
+
+#### showSearchWithGoogle
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Search with Google` menu item when right-clicking text.
+
+#### search
+
+Type: `object`
+
+Add a search menu item when right-clicking text.
+
+Set `showSearchWithGoogle` to `false` to use this instead of the built-in `Search with Google` item.
+
+When using `menu`, add the item yourself with `defaultActions.search()`.
+
+The `url` must contain `%s`, which is replaced by the search query, [like in Chrome](https://support.google.com/chrome/answer/95426?hl=en&co=GENIE.Platform%3DDesktop).
+
+`MenuItem` labels may contain the `{selection}` placeholder as described in [`options.labels`](#labels).
+
+Example:
+
+```js
+{
+	search: {
+		label: 'Search with DuckDuckGo',
+		url: 'https://duckduckgo.com/?q=%s'
+	},
+	showSearchWithGoogle: false
+}
+```
+
+#### showDictionarySuggestions
+
+Type: `boolean`\
+Default: `true`
+
+Show the dictionary suggestions when right-clicking a misspelled word.
+
+#### showSelectAll
+
+Type: `boolean`\
+Default: `false` on macOS, `true` on Windows and Linux
+
+Show the `Select All` menu item when right-clicking in a window.
+
+#### showPasteAndMatchStyle
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Paste and Match Style` menu item when right-clicking in an editable field.
+
+#### showCopyImage
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Copy Image` menu item when right-clicking on an image or a `<canvas>`.
+
+#### showCopyImageAddress
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Copy Image Address` menu item when right-clicking on an image.
+
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
+
+#### showSaveImage
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Image` menu item when right-clicking on an image.
+
+#### showSaveImageAs
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Image As…` menu item when right-clicking on an image.
+
+A `<canvas>` cannot be saved, as it has no URL to download.
+
+#### showCopyVideoAddress
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Copy Video Address` menu item when right-clicking on a video.
+
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
+
+#### showSaveVideo
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Video` menu item when right-clicking on a video.
+
+#### showSaveVideoAs
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Video As…` menu item when right-clicking on a video.
+
+#### showCopyVideoFrame
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Copy Video Frame` menu item when right-clicking on a video.
+
+Copies the video frame at the click position to the clipboard.
+
+#### showSaveVideoFrameAs
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Video Frame As…` menu item when right-clicking on a video.
+
+Shows a save dialog for the video frame at the click position.
+
+#### showPictureInPicture
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Picture in Picture` menu item when right-clicking on a video.
+
+Toggles [Picture-in-Picture](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API) for the video.
+
+#### showFileUrlItems
+
+Type: `boolean`\
+Default: `false`
+
+Show the menu items for `file://` URLs when right-clicking on a link, image, or video.
+
+This controls `Copy Link`, `Save Link As…`, `Copy Image Address`, and `Copy Video Address`. You rarely want to expose `file://` URLs to the user.
+
+These items used to be shown unconditionally. Set this to `true` to keep that behavior.
+
+#### showCopyLink
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Copy Link` menu item when right-clicking on a link.
+
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
+
+#### showSaveLinkAs
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Link As…` menu item when right-clicking on a link.
+
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
+
+#### showInspectElement
+
+Type: `boolean`\
+Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
+
+Force enable or disable the `Inspect Element` menu item.
+
+#### showServices
+
+Type: `boolean`\
+Default: `false`
+
+Show the system `Services` submenu when right-clicking text on macOS.
+
+Note: Due to [a bug in the Electron implementation](https://github.com/electron/electron/issues/18476), this menu is not identical to the “Services” submenu in the context menus of native apps. Instead, it looks the same as the “Services” menu in the main App Menu. For this reason, it is currently disabled by default.
+
+#### labels
+
+Type: `object`\
+Default: `{}`
+
+Override labels for the default menu items. Useful for i18n.
+
+The placeholder `{selection}` may be used in any label, and will be replaced by the currently selected text, trimmed to a maximum of 25 characters length. This is useful when localizing the `Look Up “{selection}”` menu item, but can also be used in custom menu items, for example, to implement a `Search Google for “{selection}”` menu item. If there is no selection, the `{selection}` placeholder will be replaced by an empty string. Normally this placeholder is only useful for menu items which will only be shown when there is text selected. This can be checked using `visible: parameters.selectionText.trim().length > 0` when implementing a custom menu item, as shown in the usage example above.
+
+Format:
+
+```js
+{
+	labels: {
+		copy: 'Copiar',
+		saveImageAs: 'Guardar imagen como…',
+		lookUpSelection: 'Consultar “{selection}”',
+		dictionarySuggestions: 'No se encontraron sugerencias'
+	}
+}
+```
+
+#### shouldShowMenu
+
+Type: `Function`
+
+Determines whether or not to show the menu. Can be useful if you for example have other code presenting a context menu in some contexts.
+
+The first argument is the context menu event. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu).
+
+Example:
+
+```js
+{
+	// Doesn't show the menu if the element is editable
+	shouldShowMenu: (event, parameters) => !parameters.isEditable
+}
+```
+
+#### menu
+
+Type: `Function`
+
+This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
+
+The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). If it returns anything else, the default menu is used. The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator`, `inspect`, and `services`). The transform function will be passed the content of the action and can modify it if needed. If you use `transform` on `cut`, `copy`, or `paste`, they will convert rich text to plain text. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is an Array of menu items for dictionary suggestions. This should be used if you wish to implement spellcheck in your custom menu. The last argument is the context menu event.
+
+Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
+
+`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
+
+To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, make sure you have not disabled the `spellcheck` option (it's `true` by default) in `BrowserWindow`.
+
+The following options are ignored when `menu` is used:
+
+- `showLearnSpelling`
+- `showLookUpSelection`
+- `showSearchWithGoogle`
+- `showDictionarySuggestions`
+- `showSelectAll`
+- `showPasteAndMatchStyle`
+- `showCopyImage`
+- `showCopyImageAddress`
+- `showSaveImage`
+- `showSaveImageAs`
+- `showCopyVideoAddress`
+- `showSaveVideo`
+- `showSaveVideoAs`
+- `showCopyVideoFrame`
+- `showSaveVideoFrameAs`
+- `showPictureInPicture`
+- `showCopyLink`
+- `showSaveLinkAs`
+- `showInspectElement`
+- `showServices`
+
+Default actions:
+
+- `separator`
+- `learnSpelling`
+- `lookUpSelection`
+- `searchWithGoogle`
+- `search`
+- `cut`
+- `copy`
+- `paste`
+- `pasteAndMatchStyle`
+- `selectAll`
+- `saveImage`
+- `saveImageAs`
+- `saveVideo`
+- `saveVideoAs`
+- `copyLink`
+- `saveLinkAs`
+- `copyImage`
+- `copyImageAddress`
+- `copyVideoAddress`
+- `copyVideoFrame`
+- `saveVideoFrameAs`
+- `pictureInPicture`
+- `inspect`
+- `services`
+
+Example for actions:
+
+```js
+{
+	menu: (actions, props, browserWindow, dictionarySuggestions) => [
+		...dictionarySuggestions,
+		actions.separator(),
+		actions.copyLink({
+			transform: content => `modified_link_${content}`
+		}),
+		actions.separator(),
+		{
+			label: 'Unicorn'
+		},
+		actions.separator(),
+		actions.copy({
+			transform: content => `modified_copy_${content}`
+		}),
+		{
+			label: 'Invisible',
+			visible: false
+		},
+		actions.paste({
+			transform: content => `modified_paste_${content}`
+		})
+	]
+}
+```
+
+#### updateMenu
+
+Type: `Function`
+
+Called with the final menu template just before the menu is shown, so you can modify it.
+
+Return a new template to replace the one passed in, or modify the array in place. Any other return value is ignored.
+
+Menu items added here do not get the `labels` overrides or the `{selection}` placeholder replaced. Use `prepend` or `append` to add items.
+
+Example:
+
+```js
+{
+	// Removes the `Copy Image Address` menu item
+	updateMenu: menuTemplate => menuTemplate.filter(menuItem => menuItem.id !== 'copyImageAddress')
+}
+```
+
+#### onShow
+
+Type: `Function`
+
+Called when the context menu is shown.
+
+The function receives the [Electron `Event` object](https://electronjs.org/docs/api/structures/event).
+
+#### onClose
+
+Type: `Function`
+
+Called when the context menu is closed.
+
+The function receives the [Electron `Event` object](https://electronjs.org/docs/api/structures/event).
+
+## Related
+
+- [electron-util](https://github.com/sindresorhus/electron-util) - Useful utilities for developing Electron apps and modules
+- [electron-debug](https://github.com/sindresorhus/electron-debug) - Adds useful debug features to your Electron app
+- [electron-store](https://github.com/sindresorhus/electron-store) - Save and load data like user settings, app state, cache, etc
+- [electron-reloader](https://github.com/sindresorhus/electron-reloader) - Simple auto-reloading for Electron apps during development
+- [electron-serve](https://github.com/sindresorhus/electron-serve) - Static file serving for Electron apps
+- [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app

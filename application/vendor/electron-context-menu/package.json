@@ -1,0 +1,47 @@
+{
+  "name": "electron-context-menu",
+  "version": "5.1.0-harmony.1",
+  "description": "Context menu for your Electron app",
+  "license": "MIT",
+  "repository": "sindresorhus/electron-context-menu",
+  "funding": "https://github.com/sponsors/sindresorhus",
+  "author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+  "type": "module",
+  "exports": {
+    "types": "./index.d.ts",
+    "default": "./index.js"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "files": [
+    "index.js",
+    "clipboard-bookmark.js",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "electron",
+    "app",
+    "context",
+    "right-click",
+    "menu",
+    "extensible",
+    "save",
+    "image",
+    "spellchecking",
+    "spellcheck",
+    "spelling",
+    "spell",
+    "check",
+    "correct",
+    "word",
+    "words",
+    "dictionary"
+  ],
+  "dependencies": {
+    "cli-truncate": "^6.1.1",
+    "electron-dl": "^5.0.0",
+    "electron-is-dev": "^3.0.1"
+  }
+}

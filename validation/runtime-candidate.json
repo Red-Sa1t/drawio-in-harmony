@@ -1,0 +1,273 @@
+{
+  "observedAt": "2026-10-10T14:52:27.248Z",
+  "repository": "https://github.com/HanversionOvO/MKCode",
+  "commit": "6a52cc1aaa3580bccede7708968276600987835b",
+  "evidenceLevel": "static-binary-inspection-only",
+  "claimedRuntime": {
+    "electron": "37.2.0",
+    "modules": "136",
+    "source": "README.md"
+  },
+  "measuredRuntimeVersions": null,
+  "targetDeviceValidation": "not-performed",
+  "host": {
+    "compatibleSdk": "5.0.5(17)",
+    "targetSdk": "6.0.0(20)",
+    "deviceTypes": [
+      "2in1"
+    ]
+  },
+  "licensing": {
+    "rootLicenseFilePresent": false,
+    "note": "Host files reference an absent BSD-style LICENSE; web_engine package declares Apache-2.0. Resolve provenance and notices before distribution."
+  },
+  "assets": [
+    {
+      "path": "ohos_hap/electron/libs/arm64-v8a/libadapter.so",
+      "bytes": 2619744,
+      "sha256": "857c51f80a3ee671f44c79b30610f95990211b4e325a566214169e8705b300d3",
+      "lfsExpectedSha256": "857c51f80a3ee671f44c79b30610f95990211b4e325a566214169e8705b300d3",
+      "lfsExpectedBytes": 2619744,
+      "verified": true,
+      "elf": {
+        "bits": 64,
+        "endian": "little",
+        "machine": 183,
+        "arch": "aarch64",
+        "needed": [
+          "libbundle_ndk.z.so",
+          "libchild_process.so",
+          "libhilog_ndk.z.so",
+          "libhitrace_ndk.z.so",
+          "libnative_window.so",
+          "libdeviceinfo_ndk.z.so",
+          "libohcommonevent.so",
+          "libability_runtime.so",
+          "libohenvironment.so",
+          "libohfileshare.so",
+          "libtime_service_ndk.so",
+          "libace_napi.z.so",
+          "libuv.so",
+          "libace_ndk.z.so",
+          "libimage_ndk.z.so",
+          "libudmf.so",
+          "libpixelmap.so",
+          "libohfileuri.so",
+          "libimage_receiver_ndk.z.so",
+          "libipc_capi.so",
+          "libability_access_control.so",
+          "libnative_window_manager.so",
+          "libc.so"
+        ],
+        "versionHints": []
+      }
+    },
+    {
+      "path": "ohos_hap/electron/libs/arm64-v8a/libc++_shared.so",
+      "bytes": 1334704,
+      "sha256": "9e90eb7e6e15bee08328657bc3317fd388a275a576e5966e63a28769bb3f0f37",
+      "lfsExpectedSha256": "9e90eb7e6e15bee08328657bc3317fd388a275a576e5966e63a28769bb3f0f37",
+      "lfsExpectedBytes": 1334704,
+      "verified": true,
+      "elf": {
+        "bits": 64,
+        "endian": "little",
+        "machine": 183,
+        "arch": "aarch64",
+        "needed": [
+          "libc.so"
+        ],
+        "versionHints": []
+      }
+    },
+    {
+      "path": "ohos_hap/electron/libs/arm64-v8a/libelectron.so",
+      "bytes": 177879536,
+      "sha256": "e7096087da496c6d2c08845d0db194a5df04289c09f2f8e26756367c6e7b7bfb",
+      "lfsExpectedSha256": "e7096087da496c6d2c08845d0db194a5df04289c09f2f8e26756367c6e7b7bfb",
+      "lfsExpectedBytes": 177879536,
+      "verified": true,
+      "elf": {
+        "bits": 64,
+        "endian": "little",
+        "machine": 183,
+        "arch": "aarch64",
+        "needed": [
+          "libadapter.so",
+          "libffmpeg.so",
+          "libhilog_ndk.z.so",
+          "libohfileuri.so",
+          "libability_access_control.so",
+          "libnet_connection.so",
+          "libohcommonevent.so",
+          "libhitrace_ndk.z.so",
+          "libnative_avscreen_capture.so",
+          "libnative_buffer.so",
+          "libnative_display_manager.so",
+          "libnative_media_core.so",
+          "libhuks_ndk.z.so",
+          "libnative_drawing.so",
+          "libudmf.so",
+          "libpasteboard.so",
+          "libpixelmap.so",
+          "libnative_image.so",
+          "libace_ndk.z.so",
+          "libnative_window.so",
+          "libnative_window_manager.so",
+          "libohinput.so",
+          "libohinputmethod.so",
+          "libohaudio.so",
+          "libnative_media_codecbase.so",
+          "libnative_media_vdec.so",
+          "libnative_media_venc.so",
+          "libnative_drm.so",
+          "libnative_media_avcencinfo.so",
+          "libohcamera.so",
+          "libdeviceinfo_ndk.z.so",
+          "libbundle_ndk.z.so",
+          "libohavsession.so",
+          "libnative_media_acodec.so",
+          "libohsensor.so",
+          "libnative_vsync.so",
+          "libimage_source.so",
+          "libos_account_ndk.so",
+          "libc++_shared.so",
+          "libc.so"
+        ],
+        "versionHints": [
+          "Chrome/138.0.7204.45",
+          "Electron/37.2.0"
+        ]
+      }
+    },
+    {
+      "path": "ohos_hap/electron/libs/arm64-v8a/libffmpeg.so",
+      "bytes": 2198160,
+      "sha256": "8002a0c8721a4a2cedda97971528294c1333c6e27fe648d1444258a56714fb3a",
+      "lfsExpectedSha256": "8002a0c8721a4a2cedda97971528294c1333c6e27fe648d1444258a56714fb3a",
+      "lfsExpectedBytes": 2198160,
+      "verified": true,
+      "elf": {
+        "bits": 64,
+        "endian": "little",
+        "machine": 183,
+        "arch": "aarch64",
+        "needed": [
+          "libc.so"
+        ],
+        "versionHints": []
+      }
+    },
+    {
+      "path": "ohos_hap/hnp/arm64-v8a/electron.hnp",
+      "bytes": 11597508,
+      "sha256": "0e14fbd1dd51f5dc6afa396de7e6b024f80d839c854b675a18a9a7e891fbc385",
+      "lfsExpectedSha256": "0e14fbd1dd51f5dc6afa396de7e6b024f80d839c854b675a18a9a7e891fbc385",
+      "lfsExpectedBytes": 11597508,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/chrome_100_percent.pak",
+      "bytes": 167677,
+      "sha256": "43c1eb10525312b4d2c9a276a4bbecd0838c2ac2fdbdfaade5100d31a00bba64",
+      "lfsExpectedSha256": "43c1eb10525312b4d2c9a276a4bbecd0838c2ac2fdbdfaade5100d31a00bba64",
+      "lfsExpectedBytes": 167677,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/chrome_200_percent.pak",
+      "bytes": 259832,
+      "sha256": "c21d93cbf06645d10250a745be48285a4b4a097af6d5f8e92e66711f87bf88fe",
+      "lfsExpectedSha256": "c21d93cbf06645d10250a745be48285a4b4a097af6d5f8e92e66711f87bf88fe",
+      "lfsExpectedBytes": 259832,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/electron",
+      "bytes": 6520,
+      "sha256": "d05dfa0622afff98fe98a190978187e14f17d9adf8a0fd9a7977767c260f8797",
+      "lfsExpectedSha256": "d05dfa0622afff98fe98a190978187e14f17d9adf8a0fd9a7977767c260f8797",
+      "lfsExpectedBytes": 6520,
+      "verified": true,
+      "elf": {
+        "bits": 64,
+        "endian": "little",
+        "machine": 183,
+        "arch": "aarch64",
+        "needed": [
+          "libelectron.so",
+          "libc.so"
+        ],
+        "versionHints": []
+      }
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/icudtl.dat",
+      "bytes": 10467680,
+      "sha256": "5070de99fbd8a48378543511fb7a072f85bf36f94b4f4e1d420d54be1435d6f1",
+      "lfsExpectedSha256": "5070de99fbd8a48378543511fb7a072f85bf36f94b4f4e1d420d54be1435d6f1",
+      "lfsExpectedBytes": 10467680,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/locales/en-US.pak",
+      "bytes": 505968,
+      "sha256": "7bbfc1a90b7367d4a8010941f5ce055fcee188a917d35bf48b0190de3b2e403e",
+      "lfsExpectedSha256": "7bbfc1a90b7367d4a8010941f5ce055fcee188a917d35bf48b0190de3b2e403e",
+      "lfsExpectedBytes": 505968,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/locales/zh-CN.pak",
+      "bytes": 511461,
+      "sha256": "8c6f32143bf340d0a3fdbef635adeeadd0d712cedd3f816b5d6ad38a476ec0d0",
+      "lfsExpectedSha256": "8c6f32143bf340d0a3fdbef635adeeadd0d712cedd3f816b5d6ad38a476ec0d0",
+      "lfsExpectedBytes": 511461,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/resources.pak",
+      "bytes": 6032354,
+      "sha256": "80fdfa10560c7d158dd25f87b13495fd5a6779fa2d7a4e9275b1dea34d3094b2",
+      "lfsExpectedSha256": "80fdfa10560c7d158dd25f87b13495fd5a6779fa2d7a4e9275b1dea34d3094b2",
+      "lfsExpectedBytes": 6032354,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/snapshot_blob.bin",
+      "bytes": 76199,
+      "sha256": "338f04701e3004deffe45f5016afef9906bedd500ee39110b9bf90ed42da0a43",
+      "lfsExpectedSha256": "338f04701e3004deffe45f5016afef9906bedd500ee39110b9bf90ed42da0a43",
+      "lfsExpectedBytes": 76199,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/v8_context_snapshot.bin",
+      "bytes": 209082,
+      "sha256": "2cff6ce91b5f878d23627243fc80a6cb1bb2feb73c4485d1d0f4bbbcfaddc995",
+      "lfsExpectedSha256": "2cff6ce91b5f878d23627243fc80a6cb1bb2feb73c4485d1d0f4bbbcfaddc995",
+      "lfsExpectedBytes": 209082,
+      "verified": true,
+      "elf": null
+    },
+    {
+      "path": "ohos_hap/web_engine/src/main/resources/resfile/vulkan/icd.d/vk_swiftshader_icd.json",
+      "bytes": 141,
+      "sha256": "34d4d9ebcd8841f2c34ccdbdcc00442bce76fae9b4de1da24c03c0ffb4e60503",
+      "lfsExpectedSha256": "34d4d9ebcd8841f2c34ccdbdcc00442bce76fae9b4de1da24c03c0ffb4e60503",
+      "lfsExpectedBytes": 141,
+      "verified": true,
+      "elf": null
+    }
+  ],
+  "totalBytes": 213866566,
+  "allAssetsVerified": true
+}

@@ -1,0 +1,171 @@
+// Copyright (c) 2025 Huawei Device Co., Ltd. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import LogUtil from '../utils/LogUtil';
+import abilityAccessCtrl, { Permissions } from '@ohos.abilityAccessCtrl';
+import bundleManager from '@ohos.bundle.bundleManager';
+
+const TAG = 'CommandLineAdapter';
+
+export class CommandLineAdapter {
+  private static readonly INSTANCE: CommandLineAdapter = new CommandLineAdapter();
+  // V8 JIT 运行时生成机器码依赖可写代码内存；该权限在坚盾模式下不授予，
+  // 未授予时必须以 --jitless 启动，否则 Chromium 进程申请 W+X 页会被内核拒绝。
+  private static readonly JIT_PERMISSION: Permissions =
+    'ohos.permission.kernel.ALLOW_WRITABLE_CODE_MEMORY' as Permissions;
+  private jitFallbackChecked: boolean = false;
+  private args: Array<string> = [];
+
+  private constructor() {
+    this.init();
+  }
+
+  public static getInstance(): CommandLineAdapter {
+    return CommandLineAdapter.INSTANCE;
+  }
+
+  /**
+   * Initialize command line
+   */
+  public init(): void {
+    this.args = this.buildDefaultArgs();
+  }
+
+  /**
+   * Check if a switch exists
+   * @param switchName The switch name to check
+   * @returns true if the switch exists, false otherwise
+   */
+  public hasSwitch(switchName: string): boolean {
+    const switchArg = `--${switchName}`;
+    return this.args.some(arg => arg === switchArg || arg.startsWith(`${switchArg}=`));
+  }
+
+  /**
+   * Get value of a switch
+   * @param switchName The switch name to get value for
+   * @returns The switch value or empty string if not found
+   */
+  public getSwitchValue(switchName: string): string {
+    const switchArg = `--${switchName}`;
+    for (const arg of this.args) {
+      if (arg.startsWith(`${switchArg}=`)) {
+        return arg.substring(switchArg.length + 1);
+      }
+    }
+    return this.args.includes(switchArg) ? '' : '';
+  }
+
+  /**
+   * Get all command line arguments
+   * @returns Array of all arguments
+   */
+  public getArgs(): Array<string> {
+    this.ensureJitlessFallback();
+    return [...this.args];
+  }
+
+  /**
+   * Probe the writable-code-memory permission once (sync, XComponent onLoad runs
+   * on a non-async path) and append --jitless when it is not granted.
+   */
+  private ensureJitlessFallback(): void {
+    if (this.jitFallbackChecked) {
+      return;
+    }
+    this.jitFallbackChecked = true;
+    try {
+      const bundleInfo: bundleManager.BundleInfo = bundleManager.getBundleInfoForSelfSync(
+        bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION);
+      const atManager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager();
+      const grant = atManager.checkAccessTokenSync(bundleInfo.appInfo.accessTokenId, CommandLineAdapter.JIT_PERMISSION);
+      if (grant === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
+        LogUtil.info(TAG, 'kernel.ALLOW_WRITABLE_CODE_MEMORY granted; V8 JIT enabled');
+      } else {
+        this.args.push('--jitless');
+        LogUtil.info(TAG, 'kernel.ALLOW_WRITABLE_CODE_MEMORY not granted; V8 falls back to jitless');
+      }
+    } catch (e) {
+      LogUtil.error(TAG, `permission probe failed, keep default command line: ${JSON.stringify(e)}`);
+    }
+  }
+
+  /**
+   * Append a switch to command line
+   * @param switchName The switch name to append
+   * @param value Optional value for the switch
+   */
+  public appendSwitch(switchName: string, value?: string): void {
+    const switchArg = `--${switchName}`;
+    if (value !== undefined) {
+      this.appendArg(`${switchArg}=${value}`);
+      LogUtil.debug(TAG, `Appended switch --${switchName}=${value}`);
+    } else {
+      this.appendArg(switchArg);
+      LogUtil.debug(TAG, `Appended switch --${switchName}`);
+    }
+  }
+
+  /**
+   * Append multiple switches to command line
+   * @param switches Map of switch names and their values
+   */
+  public appendSwitches(switches: Map<string, string>): void {
+    switches.forEach((value: string, key: string) => {
+      this.appendSwitch(key, value);
+    });
+  }
+
+  /**
+   * Append multiple arguments to command line
+   * @param args Array of arguments to append
+   */
+  public appendArgs(args: Array<string>): void {
+    args.forEach(arg => this.appendArg(arg));
+  }
+
+  /**
+   * Append a single argument to command line
+   * @param arg Argument to append
+   */
+  public appendArg(arg: string): void {
+    this.args.push(arg);
+    LogUtil.debug(TAG, `Appended argument: ${arg}`);
+  }
+
+  /**
+   * Remove a switch from command line
+   * @param switchName The switch name to remove
+   */
+  public removeSwitch(switchName: string): void {
+    const switchArg = `--${switchName}`;
+    this.args = this.args.filter(arg =>
+    arg !== switchArg && !arg.startsWith(`${switchArg}=`)
+    );
+    LogUtil.debug(TAG, `Removed switch --${switchName}`);
+  }
+
+  /**
+   * Build default command line arguments
+   * @returns Array of default command line arguments
+   */
+  private buildDefaultArgs(): Array<string> {
+    let vec_args = [
+      "electron",
+      "--use-gl=egl",
+      "--enable-features=UseOzonePlatform",
+      "--ozone-platform=ohos",
+      "--enable-logging",
+      "--ozone-dump-file=/data/storage/el2/base/cache/",
+      "--no-zygote",
+      "--user-data-dir=/data/storage/el2/base/files/",
+      "--extensions-dir=/data/storage/el2/base/files/extensions/",
+      "--force-renderer-accessibility=basic",
+      "--disable-gpu-watchdog",
+      "--disable-features=EnableDrDc",
+    ];
+
+    return vec_args;
+  }
+}

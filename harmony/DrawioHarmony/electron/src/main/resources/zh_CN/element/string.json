@@ -1,0 +1,36 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Draw.io in Harmony 图表编辑器"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "button_ok",
+      "value": "确认"
+    },
+    {
+      "name": "button_cancel",
+      "value": "取消"
+    },
+    {
+      "name": "StatusBarEntryAbility_desc",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "StatusBarEntryAbility_label",
+      "value": "Draw.io in Harmony"
+    },
+    {
+      "name": "OpenNewWindow_label",
+      "value": "打开新窗口"
+    }
+  ]
+}
