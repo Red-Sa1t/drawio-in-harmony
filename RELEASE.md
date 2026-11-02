@@ -1,5 +1,22 @@
 # draw.io 鸿蒙 PC 版：上架准备清单（2026-10-13，包名 com.neuohos.drawio）
 
+## 当前上架状态（2026-11-02）
+
+**应用名称**：Draw.io in Harmony　**包名**：`com.neuohos.drawio`　**版本**：32.4.1（3241001）　**vendor**：`neuohos`
+
+已就绪：
+- 上传包：`artifacts/DrawioInHarmony-32.4.1-release-signed.app`（release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过）。
+- 受限权限：Profile 含 `kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一一对应；坚盾降级、API26 `.permission` 段均已完成。
+- 商店素材：名称、原创图标、5 张截图（三种尺寸）、简介/介绍/关键词/新版本特性（`store-listing/`）。
+- 隐私政策：https://red-sa1t.github.io/drawio-in-harmony/privacy.html （源 `docs/privacy.html`）。
+- 源码公开（GPL）：https://github.com/Red-Sa1t/drawio-in-harmony 。
+
+提交前仍需完成：
+1. **真机回归（release 构建 + 调试签名）**：改名、换图标、改 vendor 后尚未在真机跑完整回归（2026-11-02 设备未连接）。发布签名包无法直接装机，回归时需临时把 product 的 signingConfig 改为 `default`，以 release 模式重新构建 HAP 后安装，测完改回 `release`。清单见下方"权限删除回归"。
+2. **APP 备案**（中国大陆上架必需）：在 AGC/工信部备案系统完成 APP 备案，取得备案号后在 AGC 填写。需开发者本人操作。
+3. **AGC 提交**：在 AppGallery Connect 创建/选择应用 `com.neuohos.drawio`，上传 `.app`，填写 `store-listing/应用介绍.md` 中的文案、截图、图标、隐私政策链接，分类选"创作设计 > 图形图像处理"，完成内容分级问卷后提交审核。审核时可能被问到受限权限用途，说明见 `docs/privacy.html` 第三节与此前的 ACL 申请文案。
+4. **风险项（可能导致驳回，需你决定）**：名称含"Draw.io"商标字样；OHCodium 运行时二进制的再分发条款尚未得到上游确认（见第 3 项历史记录）。
+
 ## 已完成（本机可做的部分）
 - 应用图标（2026-10-17 更换，规避商标）：改为原创分层图标（蓝紫渐变底 + 白色"开始→处理→判断"流程线），不再使用 draw.io 官方标志；源文件与商店用图标在 `store-listing/icon/`，已替换 AppScope 与 electron 模块的 `background/foreground/app_icon/startIcon`。真机桌面、任务栏、标题栏均已显示新图标。
 - 应用名（2026-10-17 更换）：`Draw.io in Harmony`（AppScope `app_name`、各 Ability 标签及权限用途文案中的应用名均已替换；Electron 载荷内部名 `package.json` 的 `draw.io` 未改，以免改变用户数据目录）。去除所有 "Runtime Probe" 字样；版本 `versionName 32.4.1` / `versionCode 3241001`。
@@ -12,9 +29,9 @@
 - 权限用途文案：已把剪贴板、下载/文档/桌面目录四项的 reason 改写为准确描述 draw.io 用途的中英文说明。
 - 构建链路：`stage-drawio-application.mjs` → `build-hap.mjs` → 已签名 HAP（调试签名）。
 
-- **发布签名就绪并完成 APP 构建（2026-11-02）**：新发布证书 `drawio_publish.cer`（由原 CSR 签发，与 `drawio.p12` 私钥匹配，有效期至 2029-11-02）与发布 Profile `drawio_publishRelease.p7b`（type release、app_gallery、`com.neuohos.drawio`）已配置进 `build-profile.json5` 的 `release` signingConfig，product 已切到 `release`。Profile 的 allowed-acls 含全部 6 项：`kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一致（JIT 权限重新申请已获批）。工程级 release `assembleApp` 构建成功，产物 `harmony/DrawioHarmony/build/outputs/default/DrawioHarmony-default-signed.app`（SHA-256 `7bd1749e81e0e89f41a629937b151fceabd9a513388c3e48bf8d1c56f42012f0`）；`hap-sign-tool verify-app` 校验 .app 与模块 HAP 签名均通过，内嵌 Profile 与 `drawio_publishRelease.p7b` 逐字节一致；HAP 内 `buildMode=release`、`debug=false`、仅 2in1，HNP 已带 `.permission` 段。app_gallery 发布签名包无法直接装机，真机回归仍以调试签名进行。
+- **发布签名就绪并完成 APP 构建（2026-11-02）**：新发布证书 `drawio_publish.cer`（由原 CSR 签发，与 `drawio.p12` 私钥匹配，有效期至 2029-11-02）与发布 Profile `drawio_publishRelease.p7b`（type release、app_gallery、`com.neuohos.drawio`）已配置进 `build-profile.json5` 的 `release` signingConfig，product 已切到 `release`。Profile 的 allowed-acls 含全部 6 项：`kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一致（JIT 权限重新申请已获批）。工程级 release `assembleApp` 构建成功，产物 `harmony/DrawioHarmony/build/outputs/default/DrawioHarmony-default-signed.app`，上传用副本 `artifacts/DrawioInHarmony-32.4.1-release-signed.app`（SHA-256 `a515fe86894dbcf61a163e5f5a0a434d63545cf92cacf76cd5437877815e7e72`，含 vendor 修正）；`hap-sign-tool verify-app` 校验 .app 与模块 HAP 签名均通过，内嵌 Profile 与 `drawio_publishRelease.p7b` 逐字节一致；HAP 内 `buildMode=release`、`debug=false`、仅 2in1，HNP 已带 `.permission` 段。app_gallery 发布签名包无法直接装机，真机回归仍以调试签名进行。
 
-## 上架前必须由你完成（无法在本机替代）
+## 历史待办记录（2026-10 期间）
 1. ~~**正式包名与发布证书/Profile**~~：已完成（2026-10-14，包名 `com.neuohos.drawio`，发布证书/Profile 配置进 `build-profile.json5`，口令为密文）。
 1b. **kernel.ALLOW_WRITABLE_CODE_MEMORY 审核回执义务**（2026-10-15 华为邮件；2026-10-17 AGC 审批以"未收到邮箱回件"驳回，需先回邮确认下列注意事项（尤其 API26 授权变化），再重新申请）：
    - **坚盾模式无闪退**（审核硬要求）：代码已落地（2026-10-16）——`web_engine/src/main/ets/common/CommandLineAdapter.ets` 的 `getArgs()` 首次调用时经 `checkAccessTokenSync` 探测该权限，未授予（坚盾模式/权限收回）则追加 `--jitless` 启动 V8 无 JIT 模式；编译与签名链已验证。**真机实验已完成（2026-10-17，HAD-W24 / 6.1.0.117 / API23，证据 `validation/jit-fallback/`）**：
