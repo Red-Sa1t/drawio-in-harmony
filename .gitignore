@@ -11,6 +11,7 @@
 !/store-listing/
 !/third_party_licenses/
 !/validation/
+!/docs/
 
 # Validation: keep only the records the build/verify scripts read.
 /validation/*

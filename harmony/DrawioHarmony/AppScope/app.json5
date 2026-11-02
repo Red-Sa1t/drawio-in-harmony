@@ -1,7 +1,7 @@
 {
   "app": {
     "bundleName": "com.neuohos.drawio",
-    "vendor": "example",
+    "vendor": "neuohos",
     "versionCode": 3241001,
     "versionName": "32.4.1",
     "icon": "$media:layered_image",

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draw.io in Harmony 隐私政策</title>
+<style>
+  :root { --bg: #ffffff; --fg: #1f2933; --muted: #52606d; --line: #e4e7eb; --accent: #3b5bdb; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14171c; --fg: #e4e7eb; --muted: #9aa5b1; --line: #2d333b; --accent: #91a7ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.75 -apple-system, "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-size: 28px; line-height: 1.3; margin: 0 0 8px; }
+  h2 { font-size: 19px; margin: 36px 0 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  p, li { color: var(--fg); }
+  .meta { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+  ul { padding-left: 1.3em; }
+  a { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 8px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; }
+  .table-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<main>
+<h1>Draw.io in Harmony 隐私政策</h1>
+<p class="meta">生效日期：2026 年 11 月 2 日　·　适用版本：32.4.1 及以后</p>
+
+<p>Draw.io in Harmony（以下简称"本应用"）是开源图表软件 draw.io 桌面版在鸿蒙 PC 上的移植版本，由开发者李心言（GitHub：<a href="https://github.com/Red-Sa1t">Red-Sa1t</a>）发布，并非 JGraph Ltd 官方发布。本政策说明本应用如何处理您的信息。</p>
+
+<h2>一、概述</h2>
+<ul>
+  <li>本应用无需注册或登录，不设账号体系。</li>
+  <li>本应用<strong>不收集、不上传、不出售</strong>您的个人信息，不包含任何统计分析、广告或第三方追踪组件。</li>
+  <li>您绘制的图表保存在您自己选择的本机位置，开发者无法访问。</li>
+</ul>
+
+<h2>二、本应用在本机处理的数据</h2>
+<p>以下数据仅保存在您的设备上，不会发送给开发者：</p>
+<ul>
+  <li><strong>图表文件</strong>：您新建、打开、保存或导出的 .drawio、PNG、SVG、PDF、HTML 等文件，存放在您通过系统文件选择器指定的位置。</li>
+  <li><strong>草稿与备份</strong>：编辑过程中自动生成的草稿/备份文件（保存在图表文件所在目录），用于意外退出后的恢复。</li>
+  <li><strong>应用设置与最近文件列表</strong>：如界面语言、主题、最近打开的文件路径等偏好设置。</li>
+  <li><strong>运行日志</strong>：用于排查故障的本地日志，不会被上传。</li>
+</ul>
+<p>卸载本应用时，系统会清除应用沙箱内的设置、草稿与日志；您保存到其他位置的图表文件不受影响。</p>
+
+<h2>三、权限说明</h2>
+<div class="table-wrap">
+<table>
+  <tr><th>权限</th><th>用途</th></tr>
+  <tr><td>读写桌面、文档、下载目录</td><td>在您选择的位置打开、保存和导出图表文件。</td></tr>
+  <tr><td>持久化文件访问授权</td><td>记住您授权过的文件，便于下次从"最近文件"直接打开。</td></tr>
+  <tr><td>读取剪贴板</td><td>仅在您执行粘贴操作时，读取剪贴板中的图形、文字或图片，用于在本应用与其他应用之间复制粘贴。本应用不会在后台读取剪贴板。</td></tr>
+  <tr><td>可写代码内存（kernel.ALLOW_WRITABLE_CODE_MEMORY）</td><td>供内置的 Chromium/V8 引擎即时编译（JIT）运行编辑器代码，提升绘图性能；未授予时自动以无 JIT 模式运行。</td></tr>
+  <tr><td>网络访问、获取网络状态</td><td>仅用于下文第四节所列、由您主动使用的联网功能。</td></tr>
+  <tr><td>打印</td><td>打印图表。</td></tr>
+</table>
+</div>
+
+<h2>四、联网功能与第三方服务</h2>
+<p>本应用的核心绘图功能可完全离线使用，且不会自动检查更新（更新由应用市场负责）。只有在您主动使用以下功能时，本应用才会访问网络：</p>
+<ul>
+  <li>插入或引用网络图片、链接时，向对应网址请求内容；</li>
+  <li>在设置中开启 Google Fonts（默认关闭）后，从 Google 字体服务加载字体；</li>
+  <li>使用部分依赖 draw.io 在线服务的功能（例如导出可在线查看的 HTML 时引用 viewer.diagrams.net 的脚本），或在"帮助"中打开 draw.io 官网、问题反馈页面。</li>
+</ul>
+<p>上述请求由您的设备直接发往相应的第三方服务器（如 JGraph Ltd、Google），开发者不经手、不保存这些数据；第三方对数据的处理适用其各自的隐私政策。</p>
+
+<h2>五、未成年人保护</h2>
+<p>本应用不收集任何个人信息，未成年人可在监护人指导下使用。</p>
+
+<h2>六、政策更新</h2>
+<p>如本政策发生变更，我们将在本页面发布更新后的版本并修改生效日期。若变更涉及收集个人信息，将在应用内另行征得您的同意。</p>
+
+<h2>七、联系我们</h2>
+<p>如对本政策或本应用有任何疑问，请通过 <a href="https://github.com/Red-Sa1t/drawio-in-harmony/issues">GitHub Issues</a> 联系开发者。本应用源代码公开于 <a href="https://github.com/Red-Sa1t/drawio-in-harmony">github.com/Red-Sa1t/drawio-in-harmony</a>。</p>
+
+<h2>Privacy Policy (English summary)</h2>
+<p>Draw.io in Harmony is an unofficial HarmonyOS PC port of draw.io desktop. It has no accounts and does not collect, upload or sell any personal data, and contains no analytics, ads or trackers. Diagrams, drafts, settings and logs stay on your device. The app only goes online for features you use explicitly (web images or links, optional Google Fonts, draw.io online viewer or help pages), with requests sent directly to those third parties. Contact: <a href="https://github.com/Red-Sa1t/drawio-in-harmony/issues">GitHub Issues</a>.</p>
+</main>
+</body>
+</html>

@@ -12,6 +12,8 @@
 - 权限用途文案：已把剪贴板、下载/文档/桌面目录四项的 reason 改写为准确描述 draw.io 用途的中英文说明。
 - 构建链路：`stage-drawio-application.mjs` → `build-hap.mjs` → 已签名 HAP（调试签名）。
 
+- **发布签名就绪并完成 APP 构建（2026-11-02）**：新发布证书 `drawio_publish.cer`（由原 CSR 签发，与 `drawio.p12` 私钥匹配，有效期至 2029-11-02）与发布 Profile `drawio_publishRelease.p7b`（type release、app_gallery、`com.neuohos.drawio`）已配置进 `build-profile.json5` 的 `release` signingConfig，product 已切到 `release`。Profile 的 allowed-acls 含全部 6 项：`kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一致（JIT 权限重新申请已获批）。工程级 release `assembleApp` 构建成功，产物 `harmony/DrawioHarmony/build/outputs/default/DrawioHarmony-default-signed.app`（SHA-256 `7bd1749e81e0e89f41a629937b151fceabd9a513388c3e48bf8d1c56f42012f0`）；`hap-sign-tool verify-app` 校验 .app 与模块 HAP 签名均通过，内嵌 Profile 与 `drawio_publishRelease.p7b` 逐字节一致；HAP 内 `buildMode=release`、`debug=false`、仅 2in1，HNP 已带 `.permission` 段。app_gallery 发布签名包无法直接装机，真机回归仍以调试签名进行。
+
 ## 上架前必须由你完成（无法在本机替代）
 1. ~~**正式包名与发布证书/Profile**~~：已完成（2026-10-14，包名 `com.neuohos.drawio`，发布证书/Profile 配置进 `build-profile.json5`，口令为密文）。
 1b. **kernel.ALLOW_WRITABLE_CODE_MEMORY 审核回执义务**（2026-10-15 华为邮件；2026-10-17 AGC 审批以"未收到邮箱回件"驳回，需先回邮确认下列注意事项（尤其 API26 授权变化），再重新申请）：
