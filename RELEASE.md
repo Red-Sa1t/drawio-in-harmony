@@ -12,7 +12,7 @@
 - 源码公开（GPL）：https://github.com/Red-Sa1t/drawio-in-harmony 。
 
 提交前仍需完成：
-1. **真机回归（release 构建 + 调试签名）**：改名、换图标、改 vendor 后尚未在真机跑完整回归（2026-11-02 设备未连接）。发布签名包无法直接装机，回归时需临时把 product 的 signingConfig 改为 `default`，以 release 模式重新构建 HAP 后安装，测完改回 `release`。清单见下方"权限删除回归"。
+1. ~~**真机回归（release 构建 + 调试签名）**~~：已完成（2026-11-06，HAD-W24）。冷启动/JIT 授权、新建与插入、三目录外保存、原地保存、PNG 导出、打印为 PDF、最近文件、强制结束后草稿恢复全部通过，无崩溃；剪贴板图形复制粘贴因测试工具无法注入 Ctrl 组合键未自动化，10-14 人工回归已通过，上传前建议手动复核一次。报告与截图见 `validation/release-regression-1106/REPORT.md`。
 2. **APP 备案**（中国大陆上架必需）：在 AGC/工信部备案系统完成 APP 备案，取得备案号后在 AGC 填写。需开发者本人操作。
 3. **AGC 提交**：在 AppGallery Connect 创建/选择应用 `com.neuohos.drawio`，上传 `.app`，填写 `store-listing/应用介绍.md` 中的文案、截图、图标、隐私政策链接，分类选"创作设计 > 图形图像处理"，完成内容分级问卷后提交审核。审核时可能被问到受限权限用途，说明见 `docs/privacy.html` 第三节与此前的 ACL 申请文案。
 4. **风险项（可能导致驳回，需你决定）**：名称含"Draw.io"商标字样；OHCodium 运行时二进制的再分发条款尚未得到上游确认（见第 3 项历史记录）。
