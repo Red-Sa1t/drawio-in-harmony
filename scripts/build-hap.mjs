@@ -31,9 +31,9 @@ child.on('close', (code, signal) => {
   log.end();
   if (code === 0) {
     fs.mkdirSync(path.join(root, 'artifacts'), { recursive: true });
-    const payload = JSON.parse(fs.readFileSync(path.join(root,
-      'harmony/DrawioHarmony/web_engine/src/main/resources/resfile/resources/app/package.json'), 'utf8'));
-    const kind = payload.name === 'draw.io' ? 'application' : 'probe';
+    // The application ships as resources/app.asar; the probe as a loose resources/app directory.
+    const kind = fs.existsSync(path.join(root,
+      'harmony/DrawioHarmony/web_engine/src/main/resources/resfile/resources/app.asar')) ? 'application' : 'probe';
     fs.copyFileSync(path.join(root, 'harmony/DrawioHarmony/electron/build/default/outputs/default/electron-default-unsigned.hap'),
       path.join(root, `artifacts/drawio-${kind}-api23-unsigned.hap`));
   }

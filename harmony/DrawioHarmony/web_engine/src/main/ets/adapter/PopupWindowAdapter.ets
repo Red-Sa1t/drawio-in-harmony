@@ -20,7 +20,7 @@ const TAG: string = 'PopupWindow';
 @injectable()
 export class PopupWindowAdapter extends BaseWindowAdapter {
   private abilityManager: AbilityManager;
-  private bundleName: string = 'com.openharmony.vscodium';
+  private bundleName: string = 'com.neuohos.drawio';
   private bundleFlags = bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION |
                         bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_METADATA;
 

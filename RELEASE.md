@@ -5,11 +5,16 @@
 **应用名称**：Draw.io in Harmony　**包名**：`com.neuohos.drawio`　**版本**：32.4.1（3241001）　**vendor**：`neuohos`
 
 已就绪：
-- 上传包：`artifacts/DrawioInHarmony-32.4.1-release-signed.app`（release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过）。
+- 上传包：`artifacts/DrawioInHarmony-32.4.1-release-signed.app`（2026-11-06 重建，SHA-256 `064aa8af7b749bd4d51e3a901ee049f5c55089a8213326e95cc6efa91e68a466`；release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过；包内无源码文件）。
 - 受限权限：Profile 含 `kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一一对应；坚盾降级、API26 `.permission` 段均已完成。
 - 商店素材：名称、原创图标、5 张截图（三种尺寸）、简介/介绍/关键词/新版本特性（`store-listing/`）。
 - 隐私政策：https://red-sa1t.github.io/drawio-in-harmony/privacy.html （源 `docs/privacy.html`）。
 - 源码公开（GPL）：https://github.com/Red-Sa1t/drawio-in-harmony 。
+
+AGC 预审问题处理（2026-11-06）：
+- **"软件包中不应包含源码文件"告警**：原先把 draw.io 载荷以散文件形式放进 `resources/resfile/resources/app`（约 7600 个文件，其中 1500 余个 `.js`）。现按上游 electron-builder 的做法（`asar: true`）打包为单个 `resources/app.asar`，并沿用上游 `files` 过滤规则剔除开发源码（`js/diagramly/**` 除 ElectronApp/DesktopLibrary、`js/grapheditor/**`、`mxgraph/src/**`、`stencils/**/*.xml`、`shapes/**`、`*.map` 等）和遗留的探针文件；仅许可证文本保留为散文件。实现见 `scripts/stage-drawio-application.mjs`（内置 asar 写入，无新增依赖）；`verify-probe-hap.ps1` 增加"包内不得出现 `.js/.ts` 等源码文件"的检查。真机验证：Electron 以 `--app-path=…/app.asar` 启动，编辑、图形库、打印均正常。
+- **"键盘快捷键操作应满足标准定义"不通过**：实测 Ctrl/Alt 组合在应用内全部失效（Ctrl+A 变成插入文本框，Ctrl+C/V/Z/S 无效）。原因是鸿蒙 Electron 运行时把硬件键盘按键转给 Chromium 时丢了修饰键标志（Ctrl 键本身的按下/抬起照常送达，字母键到页面时 `ctrlKey=false`）。修复在 `application/src/main/harmony-runtime.js` 的 `installHarmonyShortcutBridge`：主进程 `before-input-event` 按 Ctrl/Alt/Shift 自身的事件记录修饰键状态，拦下修饰键按住期间到达的普通按键，用 `webContents.sendInputEvent` 带正确修饰键重新投递。真机验证（uinput 注入真实按键事件）：Ctrl+N、Ctrl+A、Ctrl+C/V、Ctrl+Z、Ctrl+Y、Ctrl+Shift+Z、Ctrl+S 在画布中均正常；搜索框内 Ctrl+A 全选后输入替换正常；在其他应用前台按 Ctrl+N 不会触发本应用（无全局热键冲突）。
+- 顺带修正：启动器快捷方式"打开新窗口"（`shortcuts_config.json`）的 bundleName 仍是模板的 `com.openharmony.vscodium`，已改为 `com.neuohos.drawio`；宿主适配器中同名默认值一并替换；状态栏托盘提示改为 Draw.io in Harmony。
 
 提交前仍需完成：
 1. ~~**真机回归（release 构建 + 调试签名）**~~：已完成（2026-11-06，HAD-W24）。冷启动/JIT 授权、新建与插入、三目录外保存、原地保存、PNG 导出、打印为 PDF、最近文件、强制结束后草稿恢复全部通过，无崩溃；剪贴板图形复制粘贴因测试工具无法注入 Ctrl 组合键未自动化，10-14 人工回归已通过，上传前建议手动复核一次。报告与截图见 `validation/release-regression-1106/REPORT.md`。

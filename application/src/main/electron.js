@@ -6,7 +6,7 @@ import * as electron from 'electron';
 import {Menu as menu, shell, dialog, session, screen,
 		nativeImage, nativeTheme, ipcMain, app, BrowserWindow} from 'electron';
 import { createClipboardAction } from './clipboard-compat.js';
-import { initializeHarmonyRuntime, hookHarmonyOpenUrl } from './harmony-runtime.js';
+import { initializeHarmonyRuntime, hookHarmonyOpenUrl, installHarmonyShortcutBridge } from './harmony-runtime.js';
 import { listOpenHarmonyFonts } from './ohos-fonts.js';
 import crc from 'crc';
 import zlib from 'zlib';
@@ -820,6 +820,7 @@ hookHarmonyOpenUrl(app);
 app.whenReady().then(() =>
 {
 	initializeHarmonyRuntime(electron, path.join(__dirname, '../../build/icon.png'));
+	installHarmonyShortcutBridge(electron);
 	// Determine initial defaultAdaptiveColors for the drawio Configuration
 	// before any window is created so the value is passed to the preload.
 	initialAdaptiveColorsDefault = detectInitialAdaptiveColorsDefault();

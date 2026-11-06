@@ -29,7 +29,7 @@ const TAG: string = 'AppWindow';
 @injectable()
 export class AppWindowAdapter extends BaseAdapter {
   private abilityManager: AbilityManager;
-  private bundleName: string = 'com.openharmony.vscodium';
+  private bundleName: string = 'com.neuohos.drawio';
   private bundleFlags = bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION |
                         bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_METADATA;
   private queryWindowNum: number = 10;  

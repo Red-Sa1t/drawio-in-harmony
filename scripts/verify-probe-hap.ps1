@@ -47,10 +47,21 @@ try {
         if ($actual -ne $expected.sha256) { throw "Runtime asset hash mismatch: $name" }
         $checks.Add([pscustomobject]@{ path = $name; bytes = $entry.Length; sha256 = $actual; verified = $true })
     }
-    $payloadFiles = if ($PayloadKind -eq 'application') {
+    if ($PayloadKind -eq 'application') {
+        # The application ships as one app.asar (see stage-drawio-application.mjs); no loose sources.
         $payload = Get-Content (Join-Path $migrationRoot 'validation/application-payload.json') -Encoding utf8 -Raw | ConvertFrom-Json
-        $payload.files | ForEach-Object { $_.path }
-    } else { @('package.json', 'main.cjs', 'preload.cjs', 'renderer.js', 'index.html', 'style.css') }
+        $asarEntry = $zip.GetEntry('resources/resfile/resources/app.asar')
+        if (-not $asarEntry) { throw 'Payload archive missing: resources/resfile/resources/app.asar' }
+        $stream = $asarEntry.Open()
+        $sha = [Security.Cryptography.SHA256]::Create()
+        try { $actual = [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
+        finally { $sha.Dispose(); $stream.Dispose() }
+        if ($actual -ne $payload.asarSha256) { throw 'app.asar differs from the staged payload record' }
+        $checks.Add([pscustomobject]@{ path = 'resources/resfile/resources/app.asar'; bytes = $asarEntry.Length; sha256 = $actual; verified = $true })
+        $sources = @($zip.Entries | Where-Object { $_.FullName -match '\.(js|mjs|cjs|ts|jsx|tsx|java|py|c|cc|cpp|h)$' })
+        if ($sources.Count -gt 0) { throw "Source files in HAP: $(($sources | Select-Object -First 5 | ForEach-Object FullName) -join ', ')" }
+    }
+    $payloadFiles = if ($PayloadKind -eq 'application') { @() } else { @('package.json', 'main.cjs', 'preload.cjs', 'renderer.js', 'index.html', 'style.css') }
     foreach ($name in $payloadFiles) {
         $entryName = 'resources/resfile/resources/app/' + $name
         $entry = $zip.GetEntry($entryName)
