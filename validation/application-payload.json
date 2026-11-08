@@ -2,11 +2,11 @@
   "kind": "drawio-desktop",
   "version": "32.4.1",
   "core": "9034053fba80a435e27d68d374bc564b83917ae9",
-  "observedAt": "2026-11-06T04:31:44.185Z",
+  "observedAt": "2026-11-08T15:05:18.368Z",
   "entry": "src/main/electron.js",
   "packaging": "asar",
   "asar": "resources/app.asar",
-  "asarSha256": "88935715fc5de38c1743ec639c29dc3c48ca4fde875855f1c546d8533344b6f2",
+  "asarSha256": "11c6b4318a9ce7862f19f294e5acdc8de62d165ecae74d58ff096736306b08f0",
   "looseFiles": [
     "LICENSE",
     "THIRD_PARTY_NOTICES.txt",
@@ -50,8 +50,8 @@
     },
     {
       "path": "src/main/electron.js",
-      "bytes": 121114,
-      "sha256": "744bc9d8744634e16a3735303c227229b72109c8d857270f4825a7bdb3227dea"
+      "bytes": 125822,
+      "sha256": "9d8c63cdc4c7f7fe24337e648bfed1a87d1ae3b1e2e7aefb7b92bcfb54bb1c55"
     },
     {
       "path": "src/main/export-files.js",
@@ -65,8 +65,8 @@
     },
     {
       "path": "src/main/harmony-runtime.js",
-      "bytes": 4719,
-      "sha256": "e56c822a2e82ff40805fe031f70ae3558ae0307f84524bebdf21c8f754ae81c9"
+      "bytes": 6795,
+      "sha256": "332fe3e7cb136bd1f268d16f5b599e30ce6289eb433fb3af8a9bbaf4473ed1c4"
     },
     {
       "path": "src/main/ohos-fonts.js",
@@ -25932,6 +25932,11 @@
       "path": "build/icon.png",
       "bytes": 11654,
       "sha256": "3dc3c95a09909bb9aef660bb33555ab7ff02db8ca258eb4b9292140c0aa8a8d5"
+    },
+    {
+      "path": "build/harmony-icon.png",
+      "bytes": 12885,
+      "sha256": "ad67702378f27b1b61ba13356aceeef626c541108975cba693aade26cae29eeb"
     }
   ]
 }

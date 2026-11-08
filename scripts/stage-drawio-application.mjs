@@ -21,7 +21,7 @@ for (const required of ['node_modules/electron-store/package.json', 'drawio/src/
   if (!fs.existsSync(path.join(source, required))) throw new Error(`Missing ${required}`);
 }
 const entries = ['package.json', 'src/main', 'node_modules', 'vendor/electron-context-menu',
-  'drawio/src/main/webapp', 'drawio/VERSION', 'drawio/LICENSE', 'LICENSE', 'THIRD_PARTY_NOTICES.txt', 'LICENSES.chromium.html', 'build/icon.png'];
+  'drawio/src/main/webapp', 'drawio/VERSION', 'drawio/LICENSE', 'LICENSE', 'THIRD_PARTY_NOTICES.txt', 'LICENSES.chromium.html', 'build/icon.png', 'build/harmony-icon.png'];
 const looseLicenses = ['LICENSE', 'THIRD_PARTY_NOTICES.txt', 'LICENSES.chromium.html'];
 // Audited npm installation/development metadata omitted by Hvigor; no runtime files.
 const dependencyMetadata = new Set(['.package-lock.json', '.runkit_example.js', '.coveralls.yml',

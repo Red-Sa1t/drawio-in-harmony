@@ -5,7 +5,7 @@
 **应用名称**：Draw.io in Harmony　**包名**：`com.neuohos.drawio`　**版本**：32.4.1（3241001）　**vendor**：`neuohos`
 
 已就绪：
-- 上传包：`artifacts/DrawioInHarmony-32.4.1-release-signed.app`（2026-11-06 重建，SHA-256 `064aa8af7b749bd4d51e3a901ee049f5c55089a8213326e95cc6efa91e68a466`；release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过；包内无源码文件）。
+- 上传包：`artifacts/DrawioInHarmony-32.4.1-release-signed.app`（2026-11-09 重建，SHA-256 `e1c23c7e23e23da4fb7faf4f033606c2d640b02dce698bbe097e58ff86484fc2`；release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过；包内无源码文件）。
 - 受限权限：Profile 含 `kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一一对应；坚盾降级、API26 `.permission` 段均已完成。
 - 商店素材：名称、原创图标、5 张截图（三种尺寸）、简介/介绍/关键词/新版本特性（`store-listing/`）。
 - 隐私政策：https://red-sa1t.github.io/drawio-in-harmony/privacy.html （源 `docs/privacy.html`）。
@@ -15,6 +15,11 @@ AGC 预审问题处理（2026-11-06）：
 - **"软件包中不应包含源码文件"告警**：原先把 draw.io 载荷以散文件形式放进 `resources/resfile/resources/app`（约 7600 个文件，其中 1500 余个 `.js`）。现按上游 electron-builder 的做法（`asar: true`）打包为单个 `resources/app.asar`，并沿用上游 `files` 过滤规则剔除开发源码（`js/diagramly/**` 除 ElectronApp/DesktopLibrary、`js/grapheditor/**`、`mxgraph/src/**`、`stencils/**/*.xml`、`shapes/**`、`*.map` 等）和遗留的探针文件；仅许可证文本保留为散文件。实现见 `scripts/stage-drawio-application.mjs`（内置 asar 写入，无新增依赖）；`verify-probe-hap.ps1` 增加"包内不得出现 `.js/.ts` 等源码文件"的检查。真机验证：Electron 以 `--app-path=…/app.asar` 启动，编辑、图形库、打印均正常。
 - **"键盘快捷键操作应满足标准定义"不通过**：实测 Ctrl/Alt 组合在应用内全部失效（Ctrl+A 变成插入文本框，Ctrl+C/V/Z/S 无效）。原因是鸿蒙 Electron 运行时把硬件键盘按键转给 Chromium 时丢了修饰键标志（Ctrl 键本身的按下/抬起照常送达，字母键到页面时 `ctrlKey=false`）。修复在 `application/src/main/harmony-runtime.js` 的 `installHarmonyShortcutBridge`：主进程 `before-input-event` 按 Ctrl/Alt/Shift 自身的事件记录修饰键状态，拦下修饰键按住期间到达的普通按键，用 `webContents.sendInputEvent` 带正确修饰键重新投递。真机验证（uinput 注入真实按键事件）：Ctrl+N、Ctrl+A、Ctrl+C/V、Ctrl+Z、Ctrl+Y、Ctrl+Shift+Z、Ctrl+S 在画布中均正常；搜索框内 Ctrl+A 全选后输入替换正常；在其他应用前台按 Ctrl+N 不会触发本应用（无全局热键冲突）。
 - 顺带修正：启动器快捷方式"打开新窗口"（`shortcuts_config.json`）的 bundleName 仍是模板的 `com.openharmony.vscodium`，已改为 `com.neuohos.drawio`；宿主适配器中同名默认值一并替换；状态栏托盘提示改为 Draw.io in Harmony。
+
+AGC 审核驳回处理（2026-11-09，审核指南 1.20 应用名称/图标一致性）：
+- **问题**：最近任务列表与窗口标题栏显示"未命名绘图 - draw.io"，经典界面左上角显示 draw.io 橙色标志，与上架名称"Draw.io in Harmony"及原创图标不一致。
+- **修复**（`application/src/main/harmony-runtime.js` 的 `installHarmonyBranding`）：所有窗口标题固定为 `Draw.io in Harmony`（拦截 `page-title-updated`，并在窗口显示与页面加载后重设，鸿蒙原生标题栏在窗口创建后会先显示默认名）；注入 CSS 把经典主题 `.geAppIcon` 与 Atlas 主题 `img.geSmallAppIcon`（16px）换成应用图标（`application/build/harmony-icon.png`）；状态栏托盘图标同样改用该图标。
+- **真机验证**（证据 `validation/branding-1109/`）：标题栏在启动、页面更新标题后、Ctrl+N 新窗口中均为"Draw.io in Harmony"；最近任务列表（Win+Tab）两个窗口卡片均显示新图标与"Draw.io in Harmony"；经典主题与 Atlas 主题左上角均为新图标；简易主题不显示该标志。验证后已将主题恢复为用户原来的"简易"。
 
 提交前仍需完成：
 1. ~~**真机回归（release 构建 + 调试签名）**~~：已完成（2026-11-06，HAD-W24）。冷启动/JIT 授权、新建与插入、三目录外保存、原地保存、PNG 导出、打印为 PDF、最近文件、强制结束后草稿恢复全部通过，无崩溃；剪贴板图形复制粘贴因测试工具无法注入 Ctrl 组合键未自动化，10-14 人工回归已通过，上传前建议手动复核一次。报告与截图见 `validation/release-regression-1106/REPORT.md`。
@@ -28,7 +33,7 @@ AGC 预审问题处理（2026-11-06）：
 - 权限收敛：删除定位、麦克风、摄像头、蓝牙、录屏、陀螺仪、加速度计共 9 项（draw.io 不使用）；保留文件读写、剪贴板、打印、联网等。真机回归：启动、插入图形、系统保存/打开对话框正常。
 - `ohos.permission.PRIVACY_WINDOW` 已于 2026-10-14 删除（AGC 无该权限的申请入口；仅防截屏用，`AppWindowAdapter.setContentProtection` 自带 try-catch 容错，调用失败仅记日志）。声明权限降为 17 项，其中 ACL 8 项。
 - `ohos.permission.CUSTOM_SANDBOX`、`ohos.permission.READ_WRITE_USER_FILE` 已于 2026-10-17 删除（AGC 审批驳回：两者仅对 PC 上 IDE/shell 类鸿蒙开发场景开放）。依据：工程内无任何自定义沙箱配置；`electron/libs/*.so` 与 `electron.hnp` 内二进制均不引用这两个权限名；draw.io 文件访问全部走系统选择器 + `fileShare.persistPermission`/`activatePermission`（`PermissionManagerAdapter.ets`）及 Desktop/Documents/Download 三个目录权限。不改申 `ACCESS_USER_FULL_DISK`（draw.io 无全盘访问场景）。声明权限降为 15 项，其中 ACL 6 项。**真机回归待做**（清单见下方"权限删除回归"）。
-- 发布签名已配置（2026-10-14）：证书/Profile 存放 `<本机签名目录>`（.p12 同级复制了 `material\` 目录），`build-profile.json5` 新增 `release` signingConfig 并由 product 引用；口令为 hvigor 密文（由 `scripts/encrypt-signing-pwd.mjs` 按本机 material 派生密钥加密）。发布签名 HAP 全链构建验证通过。
+- 发布签名已配置（2026-10-14）：证书/Profile 存放 `<signing-dir>`（.p12 同级复制了 `material\` 目录），`build-profile.json5` 新增 `release` signingConfig 并由 product 引用；口令为 hvigor 密文（由 `scripts/encrypt-signing-pwd.mjs` 按本机 material 派生密钥加密）。发布签名 HAP 全链构建验证通过。
 - 首份发布 Profile 因权限勾选问题已失效，新 Profile 审核中（2026-10-14 起）。等待期间已完成：release 混淆 + 调试签名 HAP 真机回归——**混淆版启动即闪退**（jscrash：`TypeError: undefined is not callable`，TimerCallback，堆栈在 web_engine 混淆文件 `d/i1.ts`/`h/i.ts`，证据 `validation/release-regression/jscrash-launch.log`）。根因为 electron-ohos 模板默认混淆规则（4 项全开、无 keep）破坏运行时；draw.io 与适配层均为 GPL/开源，混淆无保护价值，已将 electron 与 web_engine 两模块的 release `ruleOptions.enable` 置 `false`。关闭混淆后 release HAP 真机启动正常（进程树含 GPU/渲染子进程、编辑器完整渲染、文件菜单交互正常，截图 `validation/release-regression/02-launch-noobf.png`、`04-menu-click.png`）；随后人工深度回归全部通过（保存/打开 `.drawio`、PNG/SVG/HTML 导出、PDF 打印、剪贴板，2026-10-14）。**release 上架形态（除签名外）验证完毕。**工程级 `assembleApp` 全链验证通过，产物 `harmony/DrawioHarmony/build/outputs/default/DrawioHarmony-default-signed.app`（该路径为 build/outputs/default，非 build/default/outputs）。product 的 signingConfig 当前指向 `default`（调试），新 Profile 到手后替换 `drawioRelease.p7b` 再切回 `release`。
 - 第三方声明：`scripts/generate-notices.mjs` 生成 `THIRD_PARTY_NOTICES.txt`（83 个 npm 包许可证全文，另含 Electron MIT、Chromium BSD-3、Node.js、FFmpeg LGPL-2.1 全文及运行时来源说明），并随包分发 `LICENSES.chromium.html`（Electron 37.2.0 官方发行包，Chromium 138.0.7204.45）；`LICENSE`（GPL-3.0）与 draw.io 核心 Apache-2.0 许可均随包。许可证原文存放于 `third_party_licenses/`。lazy-val 上游无 LICENSE 文件，使用依据 package.json 声明生成的 MIT 文本（已在声明中标注）。
 - 权限用途文案：已把剪贴板、下载/文档/桌面目录四项的 reason 改写为准确描述 draw.io 用途的中英文说明。

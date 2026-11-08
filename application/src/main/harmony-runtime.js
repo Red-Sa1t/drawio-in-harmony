@@ -2,17 +2,21 @@
 // ATTACH_TO_STATUS_BAR_ITEM. Register its required status-bar item first.
 import {fileURLToPath} from 'node:url';
 
+// Store listing name; the window caption and the recent-tasks entry must show it.
+export const HARMONY_APP_NAME = 'Draw.io in Harmony';
+
 let runtimeTray;
 let openUrlHooked = false;
 let shortcutBridgeInstalled = false;
+let brandingInstalled = false;
 
 export function initializeHarmonyRuntime(electron, iconPath)
 {
 	if (process.platform !== 'openharmony' || runtimeTray) return;
 	const image = electron.nativeImage.createFromPath(iconPath).resize({width: 24, height: 24});
-	if (image.isEmpty()) throw new Error('draw.io status-bar icon is missing');
+	if (image.isEmpty()) throw new Error('status-bar icon is missing');
 	runtimeTray = new electron.Tray(image);
-	runtimeTray.setToolTip('Draw.io in Harmony');
+	runtimeTray.setToolTip(HARMONY_APP_NAME);
 	runtimeTray.on('click', () => {
 		const win = electron.BrowserWindow.getAllWindows().find(window => !window.isDestroyed());
 		if (win) { win.show(); win.focus(); }
@@ -20,6 +24,38 @@ export function initializeHarmonyRuntime(electron, iconPath)
 	electron.app.once('will-quit', () => {
 		if (runtimeTray && !runtimeTray.isDestroyed()) runtimeTray.destroy();
 		runtimeTray = undefined;
+	});
+}
+
+// 应用名称/图标一致性（AGC 审核指南 1.20）：最近任务列表和窗口标题栏显示的是窗口标题，
+// draw.io 会把页面标题设成“文件名 - draw.io”；经典界面左上角还会画出 draw.io 的橙色标志
+// （经典主题 .geAppIcon，Atlas 主题 img.geSmallAppIcon）。这里把所有窗口标题固定为上架名称，并把这些标志换成应用图标。
+export function installHarmonyBranding(electron, iconPath)
+{
+	if (process.platform !== 'openharmony' || brandingInstalled) return;
+	brandingInstalled = true;
+	const icon = electron.nativeImage.createFromPath(iconPath);
+	if (icon.isEmpty()) throw new Error('app icon is missing');
+	const iconUrl = icon.resize({width: 128, height: 128}).toDataURL();
+	// .geAppIcon: classic theme (background image); img.geSmallAppIcon: Atlas theme.
+	const css = '.geAppIcon{background-image:url(' + iconUrl + ')!important;background-color:transparent!important;' +
+		'background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important;}' +
+		'img.geSmallAppIcon{content:url(' + iconUrl + ')!important;width:16px!important;height:16px!important;}';
+	electron.app.on('browser-window-created', (e, win) =>
+	{
+		// The native caption takes the default title (app name) once the window
+		// exists, so the title is set again when it shows and after each load.
+		const applyTitle = () => { if (!win.isDestroyed()) win.setTitle(HARMONY_APP_NAME); };
+		win.setTitle(HARMONY_APP_NAME);
+		win.once('ready-to-show', applyTitle);
+		win.once('show', applyTitle);
+		win.on('page-title-updated', event => { event.preventDefault(); applyTitle(); });
+		win.webContents.on('did-finish-load', applyTitle);
+		win.webContents.on('dom-ready', () =>
+		{
+			applyTitle();
+			win.webContents.insertCSS(css).catch(err => console.warn('harmony branding:', err));
+		});
 	});
 }
 
