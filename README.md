@@ -1,8 +1,8 @@
-# Draw.io in Harmony
+# 架构图编辑器（Diagram Editor）
 
 把开源图表软件 [draw.io 桌面版](https://github.com/jgraph/drawio-desktop) v32.4.1 移植到鸿蒙 PC（HarmonyOS 6.1 / API 23，2in1 设备）的工程。
 
-> 本项目不是 JGraph Ltd 的官方发布。"draw.io"是 JGraph Ltd 的商标；本项目使用的应用图标为原创设计。
+> 应用以"架构图编辑器 / Diagram Editor"的名称发布，不使用"draw.io"或"Harmony"等他人商标作为名称。本项目不是 JGraph Ltd 的官方发布，"draw.io"是 JGraph Ltd 的商标，此处仅用于说明源码来源；应用图标为原创设计。
 
 应用以 Electron 运行时承载 draw.io 桌面版。在鸿蒙上，绘图编辑、`.drawio` 文件的打开与保存、PNG/SVG/HTML/PDF 导出、打印、剪贴板已经过真机回归。
 

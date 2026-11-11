@@ -2,8 +2,13 @@
 // ATTACH_TO_STATUS_BAR_ITEM. Register its required status-bar item first.
 import {fileURLToPath} from 'node:url';
 
-// Store listing name; the window caption and the recent-tasks entry must show it.
-export const HARMONY_APP_NAME = 'Draw.io in Harmony';
+// Store listing name (AppScope app_name per locale); the window caption, the
+// recent-tasks entry and the tray must show the same name as the desktop icon.
+export function harmonyAppName(app)
+{
+	const locale = String(app.getLocale() || '').toLowerCase();
+	return locale.startsWith('zh') ? '架构图编辑器' : 'Diagram Editor';
+}
 
 let runtimeTray;
 let openUrlHooked = false;
@@ -16,7 +21,7 @@ export function initializeHarmonyRuntime(electron, iconPath)
 	const image = electron.nativeImage.createFromPath(iconPath).resize({width: 24, height: 24});
 	if (image.isEmpty()) throw new Error('status-bar icon is missing');
 	runtimeTray = new electron.Tray(image);
-	runtimeTray.setToolTip(HARMONY_APP_NAME);
+	runtimeTray.setToolTip(harmonyAppName(electron.app));
 	runtimeTray.on('click', () => {
 		const win = electron.BrowserWindow.getAllWindows().find(window => !window.isDestroyed());
 		if (win) { win.show(); win.focus(); }
@@ -27,7 +32,7 @@ export function initializeHarmonyRuntime(electron, iconPath)
 	});
 }
 
-// 应用名称/图标一致性（AGC 审核指南 1.20）：最近任务列表和窗口标题栏显示的是窗口标题，
+// 应用名称/图标一致性（AGC 审核指南 1.20、9.4、9.5）：最近任务列表和窗口标题栏显示的是窗口标题，
 // draw.io 会把页面标题设成“文件名 - draw.io”；经典界面左上角还会画出 draw.io 的橙色标志
 // （经典主题 .geAppIcon，Atlas 主题 img.geSmallAppIcon）。这里把所有窗口标题固定为上架名称，并把这些标志换成应用图标。
 export function installHarmonyBranding(electron, iconPath)
@@ -41,12 +46,13 @@ export function installHarmonyBranding(electron, iconPath)
 	const css = '.geAppIcon{background-image:url(' + iconUrl + ')!important;background-color:transparent!important;' +
 		'background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important;}' +
 		'img.geSmallAppIcon{content:url(' + iconUrl + ')!important;width:16px!important;height:16px!important;}';
+	const appName = harmonyAppName(electron.app);
 	electron.app.on('browser-window-created', (e, win) =>
 	{
 		// The native caption takes the default title (app name) once the window
 		// exists, so the title is set again when it shows and after each load.
-		const applyTitle = () => { if (!win.isDestroyed()) win.setTitle(HARMONY_APP_NAME); };
-		win.setTitle(HARMONY_APP_NAME);
+		const applyTitle = () => { if (!win.isDestroyed()) win.setTitle(appName); };
+		win.setTitle(appName);
 		win.once('ready-to-show', applyTitle);
 		win.once('show', applyTitle);
 		win.on('page-title-updated', event => { event.preventDefault(); applyTitle(); });

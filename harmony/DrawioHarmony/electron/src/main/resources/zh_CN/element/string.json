@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "Draw.io in Harmony"
+      "value": "架构图编辑器"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "Draw.io in Harmony 图表编辑器"
+      "value": "图表编辑器"
     },
     {
       "name": "EntryAbility_label",
-      "value": "Draw.io in Harmony"
+      "value": "架构图编辑器"
     },
     {
       "name": "button_ok",
@@ -22,11 +22,11 @@
     },
     {
       "name": "StatusBarEntryAbility_desc",
-      "value": "Draw.io in Harmony"
+      "value": "架构图编辑器"
     },
     {
       "name": "StatusBarEntryAbility_label",
-      "value": "Draw.io in Harmony"
+      "value": "架构图编辑器"
     },
     {
       "name": "OpenNewWindow_label",

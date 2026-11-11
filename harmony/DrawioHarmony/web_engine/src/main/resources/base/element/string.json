@@ -22,7 +22,7 @@
     },
     {
       "name": "access_pasteboard",
-      "value": "Used to copy and paste diagram shapes, text and images between Draw.io in Harmony and other apps."
+      "value": "Used to copy and paste diagram shapes, text and images between Diagram Editor and other apps."
     },
     {
       "name": "location",

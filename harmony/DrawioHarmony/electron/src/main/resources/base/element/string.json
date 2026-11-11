@@ -2,23 +2,23 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "Draw.io in Harmony diagram editor"
+      "value": "Diagram editor"
     },
     {
       "name": "EntryAbility_label",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "BrowserAbility_desc",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "BrowserAbility_label",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "button_ok",
@@ -30,19 +30,19 @@
     },
     {
       "name": "StatusBarEntryAbility_desc",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "StatusBarEntryAbility_label",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "StatelessAbility_desc",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "StatelessAbility_label",
-      "value": "Draw.io in Harmony"
+      "value": "Diagram Editor"
     },
     {
       "name": "OpenNewWindow_label",

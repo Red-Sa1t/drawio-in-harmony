@@ -3322,7 +3322,7 @@ function exportDiagram(event, args, directFinalize)
 								{
 									result = await dialog.showSaveDialog(owner, {
 										title: 'Print to PDF',
-										defaultPath: 'draw.io.pdf',
+										defaultPath: process.platform === 'openharmony' ? 'diagram.pdf' : 'draw.io.pdf',
 										filters: [{name: 'PDF', extensions: ['pdf']}]
 									});
 								}

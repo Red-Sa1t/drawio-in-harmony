@@ -2,11 +2,11 @@
   "kind": "drawio-desktop",
   "version": "32.4.1",
   "core": "9034053fba80a435e27d68d374bc564b83917ae9",
-  "observedAt": "2026-11-08T15:05:18.368Z",
+  "observedAt": "2026-11-11T05:11:02.727Z",
   "entry": "src/main/electron.js",
   "packaging": "asar",
   "asar": "resources/app.asar",
-  "asarSha256": "11c6b4318a9ce7862f19f294e5acdc8de62d165ecae74d58ff096736306b08f0",
+  "asarSha256": "f86dbf324ad566ad24b303fd74d6c712ec5473821b6b9c3b28aac16c716969d7",
   "looseFiles": [
     "LICENSE",
     "THIRD_PARTY_NOTICES.txt",
@@ -50,8 +50,8 @@
     },
     {
       "path": "src/main/electron.js",
-      "bytes": 125822,
-      "sha256": "9d8c63cdc4c7f7fe24337e648bfed1a87d1ae3b1e2e7aefb7b92bcfb54bb1c55"
+      "bytes": 125875,
+      "sha256": "384e000b75a65834a3ffee2d8d98f4781b6d4cc6220b46705ff47ba71ae95a47"
     },
     {
       "path": "src/main/export-files.js",
@@ -65,8 +65,8 @@
     },
     {
       "path": "src/main/harmony-runtime.js",
-      "bytes": 6795,
-      "sha256": "332fe3e7cb136bd1f268d16f5b599e30ce6289eb433fb3af8a9bbaf4473ed1c4"
+      "bytes": 7051,
+      "sha256": "d30abf13bfa6102da4fef028e8b82cd97d32afc8c541ee5ea264816439a8b466"
     },
     {
       "path": "src/main/ohos-fonts.js",
@@ -23450,8 +23450,8 @@
     },
     {
       "path": "drawio/src/main/webapp/index.html",
-      "bytes": 4226,
-      "sha256": "58c55ab42d775552a4c497098402bae87f4618a81c29074fd415ed803b1de78a"
+      "bytes": 20631,
+      "sha256": "af63c9fdfc5d18f017a020a558965b1404c690caeb172f8003d6e55333063d40"
     },
     {
       "path": "drawio/src/main/webapp/js/PostConfig.js",
@@ -23465,8 +23465,8 @@
     },
     {
       "path": "drawio/src/main/webapp/js/app.min.js",
-      "bytes": 10140882,
-      "sha256": "02a8ca547a5ff1e9a5a608e48d51650e035b2838ed193a4a5a3b87ea161f955b"
+      "bytes": 10141308,
+      "sha256": "b961ed86249427e7a76df386b715d78cc39b8eeb50e218dfb731ff3114148d98"
     },
     {
       "path": "drawio/src/main/webapp/js/bootstrap.js",
@@ -23510,8 +23510,8 @@
     },
     {
       "path": "drawio/src/main/webapp/js/diagramly/ElectronApp.js",
-      "bytes": 83027,
-      "sha256": "48cd3e1209da3e08d7c2438e8e47211ea0526573992f5908f87e825b67fdc1da"
+      "bytes": 83035,
+      "sha256": "012aea743b1124ede8aa2d5a43c122ba2e93646c10bb5a1d972125c4f1a3dd8c"
     },
     {
       "path": "drawio/src/main/webapp/js/dropbox/Dropbox-sdk.min.js",
@@ -23975,298 +23975,298 @@
     },
     {
       "path": "drawio/src/main/webapp/resources/dia.txt",
-      "bytes": 101332,
-      "sha256": "4a0b6bc31e42d902c95dff536fa78bdc06b8e964546aa77cdfa7d563870ae259"
+      "bytes": 102179,
+      "sha256": "da0aa2156a9aa99fd5d394cbf92c4838f281bf379b98368b2f5b6953f48f89fe"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_am.txt",
-      "bytes": 151228,
-      "sha256": "60a5ed8b7e928020d0b8a966c9b38b75e4b3d2ea3ab7b4cf4e7be39120ce91ae"
+      "bytes": 152033,
+      "sha256": "224c53af8fcb31fb6ff67f01f37c89b9ba350e19ff937d6bb909ddc1539d691e"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ar.txt",
-      "bytes": 153060,
-      "sha256": "05cfd68cb3145caa7b547e2284b5549f9b4ad7be2c9a2ede03bcabc946b53629"
+      "bytes": 153872,
+      "sha256": "a2b7fca8902862b257f72cacaff9496bd00c87a8af06317ee77b610c6d13ae5d"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_bg.txt",
-      "bytes": 181432,
-      "sha256": "dad3ba9ed28ab319ce28bb4633b0a61c6e743dd9c8086b980e049729cda915cd"
+      "bytes": 182237,
+      "sha256": "20b5525df6d0f10db18de1fd266d92e992cfea9d7ff36ee082594aed42a8910b"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_bn.txt",
-      "bytes": 220033,
-      "sha256": "e0b483a07d201e799ca2a56cd8d946016fa0bf86cb12790e137f45c04e1de8f1"
+      "bytes": 220782,
+      "sha256": "4ca1fc18927765c185a8c66243beb53af92e13bda6fda59f221ee1bb7a93cf40"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_bs.txt",
-      "bytes": 109254,
-      "sha256": "7c6ecae9944bc8da41d9083c08c31930b9758177420fa06c02794001aebe2437"
+      "bytes": 110059,
+      "sha256": "bf52c5d85157228a5049677ae1b7de8ef79d6c9100216b93b36560217102355d"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ca.txt",
-      "bytes": 117216,
-      "sha256": "259c268f6026b455bf2352e9d1ce2a277f6aee930a04c7b8dc32e342a9da0ca1"
+      "bytes": 118021,
+      "sha256": "0147c029f114f2cc9e3decd84a2b443900d4b549f52562c17b0c4abfa016bdd1"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_cs.txt",
-      "bytes": 113843,
-      "sha256": "e90de582de94d833b54154a82168974a3747a4b549daab1919e3856e44b4340b"
+      "bytes": 114641,
+      "sha256": "80321bdf8332a2ad6ce893e1bd92f97387ab6c21d35a7bafee26031865d463c9"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_da.txt",
-      "bytes": 106724,
-      "sha256": "a8984cb73cfa643833d8b5f8beeb5a097f0334add8df62a7dae8bfbd2e406729"
+      "bytes": 107123,
+      "sha256": "412e23f3369d91b8dc1ec17536129b6aac79f27a11f2754d1286f3d365b3ed65"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_de.txt",
-      "bytes": 113820,
-      "sha256": "5deef5f70bfc37c6754b9e52b491bfafcf7d0f9811a34e244ce8619632f7db0d"
+      "bytes": 114163,
+      "sha256": "35c92c8e65a165f91fee8ed043779705483aee73cf4d29a91773c3edbf12c289"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_el.txt",
-      "bytes": 190277,
-      "sha256": "f186291943e1915c9a2384b23c29f893abd54956732839fb2c08a5f1db80fcf1"
+      "bytes": 191082,
+      "sha256": "ac86397b592004ba790635616434329a1611ed1b7ef0a104eaef1325ebe39fd4"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_eo.txt",
-      "bytes": 108422,
-      "sha256": "c1acf40f2b5daa1aa61789c06525fe9a71a218ddbb5853e9d4daa31871319e4a"
+      "bytes": 108821,
+      "sha256": "b267b3e1bb74306a1cde647e53c3ed1893d97f1fe2b163732a0569395714c499"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_es.txt",
-      "bytes": 117265,
-      "sha256": "79476709a28ea3a0d16df1648e41030d3ad02a67dfe58c80dbc6e5f9b3b1b552"
+      "bytes": 118063,
+      "sha256": "0fc63431987da90c4effb2120164578e32cefc24b55d088e94b88927dd19c3f9"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_et.txt",
-      "bytes": 105862,
-      "sha256": "9f20b1476bf587611aad5b5c21e3adde0687ae92ac4e9ece199e9fc42b981bf0"
+      "bytes": 106597,
+      "sha256": "60875ec9b7d8de9991369494f290f5f9d3542ee58461ce523fce190e2fb7c6fe"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_eu.txt",
-      "bytes": 112199,
-      "sha256": "37ef0f247ff93babdc20c545130cd82c6d38b0fb79794c6a7e8dde1dab3c0db5"
+      "bytes": 112850,
+      "sha256": "bc3c6f253011204538eee9e1f81332c8e7fd3a22b91800c49497eb524725c562"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_fa.txt",
-      "bytes": 164583,
-      "sha256": "807f88f34f849cd3e0596750945ede19d8aa9dc373b8a208ed4a43bc007f0a66"
+      "bytes": 165388,
+      "sha256": "0bbc7d81d7585427618c0ab01d200cece73389eb817c51221f9539cfb64a3cbb"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_fi.txt",
-      "bytes": 109795,
-      "sha256": "96647a46bdade30f069e5c935cc663651b93fe4f8d12ab0a2bad59118af52cf4"
+      "bytes": 110019,
+      "sha256": "9f9a5670cdb31a4e04068fed8c1194252a2b2acac15dc0398a96918f437afef6"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_fil.txt",
-      "bytes": 116504,
-      "sha256": "64fb1383b32da0c3a3888c2ee1538148af2881dcdb70d71f5fdfb91c95fcfa4c"
+      "bytes": 117309,
+      "sha256": "457cf108a07b649aab5ced50dc5246fac54061fd17cca7436359b94b6f32b87d"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_fr.txt",
-      "bytes": 121759,
-      "sha256": "a205606a267f7d8a185d3dcc21326572b63482d2f9a8bf92f90ef0751638bbf8"
+      "bytes": 122564,
+      "sha256": "0269e0c91b14ecfa4507cd56f943d040a12d4967fa5843d4e189737a4dbd2dff"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_gl.txt",
-      "bytes": 113476,
-      "sha256": "f0a37532b9a581999c90712fc1a30267720555100b0867441f2175a65624b987"
+      "bytes": 114281,
+      "sha256": "54ad7207fdd77de9c62f7e0c0b870992ef13f70c8bd5e0a8285a1fe3b261d028"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_gu.txt",
-      "bytes": 204207,
-      "sha256": "1271c335e335db48f4dbc2db3eac8e62ff860f4c3861a4b53d336583706134e3"
+      "bytes": 205012,
+      "sha256": "541c7cb55ea763d52fd2cb287f38a63c948a18d542462a2b9fa2070be94c9a1c"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_he.txt",
-      "bytes": 130874,
-      "sha256": "7c6c32def3b0d09c0e476eff9761cb5a9aa2b7ceb479a8dd6b19c0bc2f948799"
+      "bytes": 131637,
+      "sha256": "e471716034de7ae87ca718ec3e3f7acab7d6863dd5073cf343d808b0b79bb76d"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_hi.txt",
-      "bytes": 207964,
-      "sha256": "1ca3e44f4f1a02798ea246a4c7a8227d03e17d4eec4df536ffdc836969bab9d8"
+      "bytes": 208769,
+      "sha256": "b75f8011cadb38cc6309a9f551b3f97e8e85f654096af3913030cd1d2cb584fd"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_hr.txt",
-      "bytes": 109927,
-      "sha256": "61c851bf10a9e4ee589f48a9b344f63fedd2c6c0a99b1be6335e48d37c6ca2af"
+      "bytes": 110732,
+      "sha256": "970357b9814b54dcec1360ad51afaf6204821654f8364eec15d953d3db410c61"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_hu.txt",
-      "bytes": 119199,
-      "sha256": "f4ae01d8766b57b700f8041d47d80f63c4a3f20d83c752c80879ea9bc2caaef0"
+      "bytes": 119871,
+      "sha256": "9b9bbba1ea8d93a31d3402ffeb8aea652311fa83d97d9d6a5c8e3ecaaa157258"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_i18n.txt",
-      "bytes": 65363,
-      "sha256": "7fdcf640969b17028a107e6fb7564238432f8a7c85ace15e750e890e32f915ec"
+      "bytes": 65370,
+      "sha256": "275a498ba5f5465d48276987ce3cdf6c8bd8bfbba9acfc7320296dbe5244a6f5"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_id.txt",
-      "bytes": 106632,
-      "sha256": "22ec28c29afcff30bedc52efe64842c6c441301d1060ecd442ea9355067809df"
+      "bytes": 107437,
+      "sha256": "f5f0d786e0f4d5ccd4d2d5dfecde8ed15bfc68706a11074fe3a27cb0b3bdf127"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_it.txt",
-      "bytes": 115983,
-      "sha256": "7b4098ca91e4224678c95bef8721a587f2f908f41c87c06b2d0c5a70adbc1d37"
+      "bytes": 116788,
+      "sha256": "2982ac696bb670f6dcb9035ecbde24717fdbf00e0161c7158d822afe4f676fed"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ja.txt",
-      "bytes": 135738,
-      "sha256": "c70aff1bc64668f0c79db99bc21f65575108c0ca19e19001a90d0888b51c880d"
+      "bytes": 136543,
+      "sha256": "e4f0932a8ace4553f27801dc8f37c18e88a54506eab822dab19b88d37caf888c"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_kl.txt",
-      "bytes": 124720,
-      "sha256": "30561a443d28ac8ad5a389b5fa478230a8b88b15914a922f585b121fa1e7c538"
+      "bytes": 125189,
+      "sha256": "5a9a958f69482cf83b4402e4c484144cfd20766f45e614787d040f5163e0e708"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_kn.txt",
-      "bytes": 231491,
-      "sha256": "68f2acb109e8804e3685e3ffe40c0abbb5e3259cf64598e9b2cb1f6a09fedf3e"
+      "bytes": 232296,
+      "sha256": "378e44c3ecbf7127ffea38d0fd58c4b47ed48e7884d1d712865619ba73346026"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ko.txt",
-      "bytes": 124803,
-      "sha256": "830a7941fa3c3ce2e950dc52ac93c4bad15ff51a76f2a279e235e65f239dde6f"
+      "bytes": 125608,
+      "sha256": "49355a3a78b68438574abe445889698aa59e11395cceb7924be0eb347330827f"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_lt.txt",
-      "bytes": 111793,
-      "sha256": "1cb8d03f6623194ee5905f7c651510091ec2027e6be1222c0d79c1304df53904"
+      "bytes": 112598,
+      "sha256": "07c084dd1ad048583390b896409dc1dcf03d56cd5ef226d0bdb359b768d74f3c"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_lv.txt",
-      "bytes": 115431,
-      "sha256": "65f76a0d904f4e9603ec7b4c7c76ab6fdff940106c9e636be4dc500092cb2639"
+      "bytes": 116236,
+      "sha256": "085f369261eb79172c63b333018c724967ca8349ad88616de9366a5c3d8ed931"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ml.txt",
-      "bytes": 247238,
-      "sha256": "4657d24e06063894d3ae13240e26bf820ebeac9f89cc793073eb5ac8ed48afba"
+      "bytes": 247952,
+      "sha256": "d042746ddea89e9baa6d1ee383dd441cbfe2cf69f9fdbd09d08cbd7b147e3b37"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_mr.txt",
-      "bytes": 205893,
-      "sha256": "52979f1ad6e02e8d75ac1f609b41da3de9576ad2715c6b66d4f98674d9baa2ed"
+      "bytes": 206698,
+      "sha256": "143ffbecb29a8686dae06b3c1f08a68b19f5645cd6fcd426c705d5b99bda0fdc"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ms.txt",
-      "bytes": 107509,
-      "sha256": "d4bc9df6c405efb6881a081d3373745ec1f83057e99a0048feb19022d3ff3d66"
+      "bytes": 108314,
+      "sha256": "2bef78e1987d4c5dd73dfe68d04f19ad7b2dff5870fb92e4bf7716c7b95c54ef"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_my.txt",
-      "bytes": 256318,
-      "sha256": "d92fc809af06aff9a3e587cd837a80d929b5ad251eb62d1cc74945594a42b76a"
+      "bytes": 257123,
+      "sha256": "6c7bafe68bcef836f9a980274cc1973a8e2bf26a5c2401c05393ca8717dfdb06"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_nl.txt",
-      "bytes": 112030,
-      "sha256": "df68b70f51daddb85af07f6b164dd37b226f8f0e54ac0848462a553cbf237834"
+      "bytes": 112478,
+      "sha256": "3e33e869c5bb025463d6836b178b34386773cb545f322edfd5197bd216798ff2"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_no.txt",
-      "bytes": 106032,
-      "sha256": "ca066569137068d9fdf4b1cc73557aeb60a4162475276670df17f5949bca5355"
+      "bytes": 106403,
+      "sha256": "1ff1457b5431d7c6665ed207b4d3baf7371787d1bba3c60b22d811be37f95196"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_pl.txt",
-      "bytes": 114705,
-      "sha256": "06809c22c4659683394e85a7a5ea9a81936893831442e933eb9a4cbfa7695444"
+      "bytes": 115510,
+      "sha256": "3cd3ef6e077022faebfab6a07d7c57b72ffb2605685e2631203de6696a8e7e93"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_pt-br.txt",
-      "bytes": 115389,
-      "sha256": "5b2d9126455590aa90d7e8bb90f6dc7d055e82e18eb598d650f5b3f037887902"
+      "bytes": 116194,
+      "sha256": "71d212f984e8a971d99fc587a899d34008a5642cd5956c4bd9fea798309cecbe"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_pt.txt",
-      "bytes": 112159,
-      "sha256": "581a846e33ca08491a8090a3eccc8f4ca9391b688b7741caf92688fa5aae784f"
+      "bytes": 112964,
+      "sha256": "b816291800fab15cf4b97d9e634af20923318f8a7a45225abf19049d34804c87"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ro.txt",
-      "bytes": 114687,
-      "sha256": "64ed8b379282852c06a45de06d8ebae04e7c21604136716dd960aa2c978d9b33"
+      "bytes": 115492,
+      "sha256": "a73210bad5c0416fca264cfb73262b17746be97438afca919fde47bff22f0bb8"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ru.txt",
-      "bytes": 176455,
-      "sha256": "7c5398649983c44a17fb4db9be868b6ad519fe5817d928a8bf73b373ac625463"
+      "bytes": 177267,
+      "sha256": "91e5942f91555f0895abd049ec5cbb1e6fe78456ee2e7fae9ec508a93b18cfb2"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_si.txt",
-      "bytes": 207096,
-      "sha256": "7f5f004b2fe7ccb615cd9031f911d6b75fa8d0953196e7de2128078b9cf2185e"
+      "bytes": 207901,
+      "sha256": "5982bf990202966a5c30b907f941a5d38f67394c0a41bc3f78ed52b06bd13794"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_sk.txt",
-      "bytes": 111695,
-      "sha256": "92df32b9c422753f5b34b49f56219c8499b07737e4fd12bf7c4be58118854add"
+      "bytes": 112500,
+      "sha256": "69055469b96f5d6ec4e7e76b4c9a147a92537eda3f96e9d70cc5cede30b39c16"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_sl.txt",
-      "bytes": 107811,
-      "sha256": "cf59f5f5c0b58e910c8477ef7395e46bf8a20ebec88ee4a33c16acdbb946b0f7"
+      "bytes": 108616,
+      "sha256": "d860ea01aa9cb5c3864b86d4b364bf67ad8eb9536cdd3547d9a867afdb9dd95b"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_sr.txt",
-      "bytes": 121844,
-      "sha256": "5d70527ea772e60a224706b85b217cf3224aa39ad7bf8b94b1ce6334aee425d8"
+      "bytes": 122649,
+      "sha256": "a5944fde454057ce48715c6bd5d56562098f7660be32490a69d88103b20c40e2"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_sv.txt",
-      "bytes": 107648,
-      "sha256": "a0875c5232314ed1ec797115530980a029f2280c2dce312588e42dc74d4042df"
+      "bytes": 108068,
+      "sha256": "a4cfce9f2a8401f94f9cd0e7a6013c8a1e419b4f33472cb2e148ebde67a2761b"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_sw.txt",
-      "bytes": 110666,
-      "sha256": "28eb26be9ae8e9cfddc6ce2a289865477fdee8af840001f5a9a52e06c24fc2bb"
+      "bytes": 111471,
+      "sha256": "bde0a4399f0875ce8e07071757b3ec82cee61a88f12a8793441d4b639a0cbb47"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_ta.txt",
-      "bytes": 248659,
-      "sha256": "f48326ba7d3cb9d485b30cf0ee8bd7485edae5b86284ef72b26f2b3627754a6f"
+      "bytes": 249387,
+      "sha256": "766d2f933cab9505b7fd2ae4cbb328d85d1edeb34245192799644ad3d7bedf78"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_te.txt",
-      "bytes": 228913,
-      "sha256": "fb15a0c246da628a83735cbcf84737b39cbfd59c90cf8247c1a569fdf66b455e"
+      "bytes": 229718,
+      "sha256": "c26dc9f7a224de4dcbf420975af9f1c3bd334465172aa57d9b475e7ac49a2198"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_th.txt",
-      "bytes": 204826,
-      "sha256": "4b83449fa9c45e96dcc61cf429ecd172d25c7f26302755df02511df5f782d919"
+      "bytes": 205631,
+      "sha256": "20e3e79fed5d8d047b88f45f2a3483f8ce118aeab7930fe5f671510515325573"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_tr.txt",
-      "bytes": 115150,
-      "sha256": "5be369e48b4615b434b2a34353149fe3a6214612bd6a162c9dfafaa9719fe9f7"
+      "bytes": 115955,
+      "sha256": "0047c903b548efa8cbf03c02362939fcaa9b540e036cd0352198b8c35256486f"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_uk.txt",
-      "bytes": 171689,
-      "sha256": "d0c739c9b9e73e7f6e80e33e8ed7c9deefe52e08c202869c9d4f1650020ea1da"
+      "bytes": 172501,
+      "sha256": "2dddb45334c7ae73c6fe45181a962cbcbe8b25044661ae9ff8ba45ac32f28863"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_vi.txt",
-      "bytes": 126592,
-      "sha256": "68ecf89667af054c1f1e96f63367bf0a283e923d4b7cf38b8d40790f1d8b4e2a"
+      "bytes": 127397,
+      "sha256": "31dc18c80007cdc04f45f3ae74d91fbd70eee3b84e969e810462aa4965d50da2"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_zh-tw.txt",
-      "bytes": 97494,
-      "sha256": "81127a31f12a887eb0aa68bbf08a6e0a2bdabfe98cf8d7c1977beb67e21f7913"
+      "bytes": 98759,
+      "sha256": "4e097fbaa1bb592eb5aa77b02e8a8a3bf25a8bb50b7cd0c39809aa8c724f1b39"
     },
     {
       "path": "drawio/src/main/webapp/resources/dia_zh.txt",
-      "bytes": 96486,
-      "sha256": "1064dbcd0eba5ee0eba587f388d23d63476933e98667f2c61d323dc0aee8c44a"
+      "bytes": 97740,
+      "sha256": "8524e2b64ff96419cdfad2faf029a505b334fd56246af02c566b923a5ebdd917"
     },
     {
       "path": "drawio/src/main/webapp/service-worker.js",

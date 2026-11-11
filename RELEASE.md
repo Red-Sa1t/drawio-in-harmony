@@ -1,11 +1,11 @@
-# draw.io 鸿蒙 PC 版：上架准备清单（2026-10-13，包名 com.neuohos.drawio）
+# 架构图编辑器（鸿蒙 PC）：上架准备清单（包名 com.neuohos.drawio）
 
-## 当前上架状态（2026-11-02）
+## 当前上架状态（2026-11-11）
 
-**应用名称**：Draw.io in Harmony　**包名**：`com.neuohos.drawio`　**版本**：32.4.1（3241001）　**vendor**：`neuohos`
+**应用名称**：架构图编辑器（英文 Diagram Editor）　**包名**：`com.neuohos.drawio`　**版本**：32.4.1（3241001）　**vendor**：`neuohos`
 
 已就绪：
-- 上传包：`artifacts/DrawioInHarmony-32.4.1-release-signed.app`（2026-11-09 重建，SHA-256 `e1c23c7e23e23da4fb7faf4f033606c2d640b02dce698bbe097e58ff86484fc2`；release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过；包内无源码文件）。
+- 上传包：`artifacts/DiagramEditor-32.4.1-release-signed.app`（2026-11-11 重建，SHA-256 `ebfe525c7e0958fe07818b60cdee3f16f35996b7d057509da64e34a017808e3f`；release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过；包内无源码文件；资源索引中无旧名）。
 - 受限权限：Profile 含 `kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一一对应；坚盾降级、API26 `.permission` 段均已完成。
 - 商店素材：名称、原创图标、5 张截图（三种尺寸）、简介/介绍/关键词/新版本特性（`store-listing/`）。
 - 隐私政策：https://red-sa1t.github.io/drawio-in-harmony/privacy.html （源 `docs/privacy.html`）。
@@ -20,6 +20,15 @@ AGC 审核驳回处理（2026-11-09，审核指南 1.20 应用名称/图标一�
 - **问题**：最近任务列表与窗口标题栏显示"未命名绘图 - draw.io"，经典界面左上角显示 draw.io 橙色标志，与上架名称"Draw.io in Harmony"及原创图标不一致。
 - **修复**（`application/src/main/harmony-runtime.js` 的 `installHarmonyBranding`）：所有窗口标题固定为 `Draw.io in Harmony`（拦截 `page-title-updated`，并在窗口显示与页面加载后重设，鸿蒙原生标题栏在窗口创建后会先显示默认名）；注入 CSS 把经典主题 `.geAppIcon` 与 Atlas 主题 `img.geSmallAppIcon`（16px）换成应用图标（`application/build/harmony-icon.png`）；状态栏托盘图标同样改用该图标。
 - **真机验证**（证据 `validation/branding-1109/`）：标题栏在启动、页面更新标题后、Ctrl+N 新窗口中均为"Draw.io in Harmony"；最近任务列表（Win+Tab）两个窗口卡片均显示新图标与"Draw.io in Harmony"；经典主题与 Atlas 主题左上角均为新图标；简易主题不显示该标志。验证后已将主题恢复为用户原来的"简易"。
+
+AGC 审核驳回处理（2026-11-09 ~ 11-11，第二轮）：
+- **启动过场闪现橙色图标**：系统启动窗口已是新图标（`startIcon.png`）；闪现的是编辑器页面 `index.html` 内联的橙色 SVG 加载标志（`.geSplashLogo`），在任何运行时 CSS 之前就已绘制。`scripts/stage-drawio-application.mjs` 打包时将其替换为应用图标（保留 class 与动画），上游子模块不改。真机连拍启动过程（约 0.4 s/帧，`validation/branding-1109/launch/`）无橙色帧。
+- **自动布局报错 `a.getSelectedLayoutContainer is not a function`**：上游公开子模块 v32.4.1 预编译包不同步——`EditorUi.getSelectedLayoutContainer()` 已更名为 `getSelectedLayoutContainers()`，而 `js/extensions.min.js`（ELK / libavoid 布局）仍调用旧名，"排列 > 布局"下所有布局点"应用"即报错，与鸿蒙无关。打包时在 `app.min.js` 末尾补回旧方法（选中恰好一个布局容器时返回它，否则 null，与上游源码注释一致）；上游若不再定义复数版本，打包脚本报错提醒。真机验证垂直流、水平流、垂直树、水平树、径向树、力导向图、正交布线均正常完成，日志无 TypeError。
+- **名称/商标（审核指南 9.4、9.5）**：应用名含"Draw.io"（JGraph Ltd 商标）与"Harmony"（华为商标），且可能与他人上架的同类应用混淆。改名为 **架构图编辑器 / Diagram Editor**：
+  - 安装包：AppScope `app_name` 新增 zh_CN（架构图编辑器）与 en_US（Diagram Editor），base 为英文；electron / web_engine 模块各 Ability 标签、权限用途文案同步；窗口标题与托盘提示按系统语言取同名（`harmonyAppName()`）。
+  - 编辑器界面：打包时把字符串表 `resources/dia*.txt` 中独立出现的"draw.io"（仅值、不含键名与网址）替换为应用名；`Editor.prototype.appName` 改为应用名（内部服务名 `getServiceName()` 保持 "draw.io"，功能分支依赖它）；模板对话框分类标题改用资源字符串；打开文件对话框类型名改为"绘图"；"帮助 > 网站 / 支持"改指向本项目主页与 GitHub Issues；打印为 PDF 默认文件名改为 `diagram.pdf`。
+  - 商店素材：介绍、简介、关键词、隐私政策、项目主页去掉 draw.io / Harmony；展示图左上角改为新名，原截图的旧标题栏裁去（未改字）。上游署名保留在 LICENSE、THIRD_PARTY_NOTICES 与源码仓库中（许可证要求）。
+  - 验证：真机（租期结束前）确认桌面/开始菜单、标题栏、最近任务列表为"架构图编辑器"；其余编辑器层改动用本机 Windows Electron 37 加载同一 `app.asar` 验证（中、英文环境）：应用名、字符串替换、布局补丁、"支持"链接均正确，界面可见文本不含 draw.io。
 
 提交前仍需完成：
 1. ~~**真机回归（release 构建 + 调试签名）**~~：已完成（2026-11-06，HAD-W24）。冷启动/JIT 授权、新建与插入、三目录外保存、原地保存、PNG 导出、打印为 PDF、最近文件、强制结束后草稿恢复全部通过，无崩溃；剪贴板图形复制粘贴因测试工具无法注入 Ctrl 组合键未自动化，10-14 人工回归已通过，上传前建议手动复核一次。报告与截图见 `validation/release-regression-1106/REPORT.md`。
