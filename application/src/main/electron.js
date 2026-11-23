@@ -6,7 +6,8 @@ import * as electron from 'electron';
 import {Menu as menu, shell, dialog, session, screen,
 		nativeImage, nativeTheme, ipcMain, app, BrowserWindow} from 'electron';
 import { createClipboardAction } from './clipboard-compat.js';
-import { initializeHarmonyRuntime, hookHarmonyOpenUrl, installHarmonyShortcutBridge, installHarmonyBranding } from './harmony-runtime.js';
+import { initializeHarmonyRuntime, hookHarmonyOpenUrl, installHarmonyShortcutBridge, installHarmonyBranding,
+	installHarmonyLanguageFollow, harmonySystemLocale } from './harmony-runtime.js';
 import { listOpenHarmonyFonts } from './ohos-fonts.js';
 import crc from 'crc';
 import zlib from 'zlib';
@@ -585,7 +586,7 @@ function createWindow (opt = {})
 	}
 
 	//Cannot be read before app is ready
-	queryObj['appLang'] = app.getLocale();
+	queryObj['appLang'] = process.platform === 'openharmony' ? harmonySystemLocale(app) : app.getLocale();
 	queryObj['autoUpdate'] = isAutoUpdateEnabled()? 1 : 0;
 
 	let ourl = url.format(
@@ -822,6 +823,7 @@ app.whenReady().then(() =>
 	initializeHarmonyRuntime(electron, path.join(__dirname, '../../build/harmony-icon.png'));
 	installHarmonyShortcutBridge(electron);
 	installHarmonyBranding(electron, path.join(__dirname, '../../build/harmony-icon.png'));
+	installHarmonyLanguageFollow(electron);
 	// Determine initial defaultAdaptiveColors for the drawio Configuration
 	// before any window is created so the value is passed to the preload.
 	initialAdaptiveColorsDefault = detectInitialAdaptiveColorsDefault();

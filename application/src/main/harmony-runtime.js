@@ -2,11 +2,20 @@
 // ATTACH_TO_STATUS_BAR_ITEM. Register its required status-bar item first.
 import {fileURLToPath} from 'node:url';
 
+// Current system locale ("zh-CN", "en-US", ...). app.getLocale() is fixed when
+// the process starts; installHarmonyLanguageFollow keeps this up to date.
+let systemLocale = null;
+
+export function harmonySystemLocale(app)
+{
+	return systemLocale || app.getLocale();
+}
+
 // Store listing name (AppScope app_name per locale); the window caption, the
 // recent-tasks entry and the tray must show the same name as the desktop icon.
 export function harmonyAppName(app)
 {
-	const locale = String(app.getLocale() || '').toLowerCase();
+	const locale = String(harmonySystemLocale(app) || '').toLowerCase();
 	return locale.startsWith('zh') ? '架构图编辑器' : 'Diagram Editor';
 }
 
@@ -14,6 +23,7 @@ let runtimeTray;
 let openUrlHooked = false;
 let shortcutBridgeInstalled = false;
 let brandingInstalled = false;
+let languageFollowInstalled = false;
 
 export function initializeHarmonyRuntime(electron, iconPath)
 {
@@ -46,13 +56,12 @@ export function installHarmonyBranding(electron, iconPath)
 	const css = '.geAppIcon{background-image:url(' + iconUrl + ')!important;background-color:transparent!important;' +
 		'background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important;}' +
 		'img.geSmallAppIcon{content:url(' + iconUrl + ')!important;width:16px!important;height:16px!important;}';
-	const appName = harmonyAppName(electron.app);
 	electron.app.on('browser-window-created', (e, win) =>
 	{
 		// The native caption takes the default title (app name) once the window
 		// exists, so the title is set again when it shows and after each load.
-		const applyTitle = () => { if (!win.isDestroyed()) win.setTitle(appName); };
-		win.setTitle(appName);
+		const applyTitle = () => { if (!win.isDestroyed()) win.setTitle(harmonyAppName(electron.app)); };
+		applyTitle();
 		win.once('ready-to-show', applyTitle);
 		win.once('show', applyTitle);
 		win.on('page-title-updated', event => { event.preventDefault(); applyTitle(); });
@@ -63,6 +72,81 @@ export function installHarmonyBranding(electron, iconPath)
 			win.webContents.insertCSS(css).catch(err => console.warn('harmony branding:', err));
 		});
 	});
+}
+
+// 语言跟随系统：Chromium 的语言和 app.getLocale() 在进程启动时就固定了，系统设置里改了语言，
+// 已打开的窗口不会知道。这里经宿主 ArkTS 的 OhosI18nAdapter.GetLocaleLang / getLocaleRegion
+// （每次调用都按当前系统设置新建 Intl.Locale）读取实时的系统语言：窗口获得焦点时（从系统设置切回来）
+// 和每 5 秒各查一次；变化后更新窗口标题、托盘提示，并通知各窗口（"systemLanguage" 消息，
+// 渲染端在语言设置为"自动"时就地切换界面语言，见打包脚本里 app.min.js 的语言补丁）。
+export function installHarmonyLanguageFollow(electron)
+{
+	if (process.platform !== 'openharmony' || languageFollowInstalled) return;
+	const {app, BrowserWindow, systemPreferences} = electron;
+	if (typeof systemPreferences.callArkTSFunction !== 'function')
+	{
+		console.warn('harmony language: callArkTSFunction unavailable');
+		return;
+	}
+	languageFollowInstalled = true;
+	const call = async name =>
+	{
+		const value = await systemPreferences.callArkTSFunction(name, 'string', []);
+		return typeof value === 'string' ? value.trim() : '';
+	};
+	// "zh-Hans-CN" -> "zh-CN"; the script subtag is dropped.
+	const fromSystemLocale = tag =>
+	{
+		const parts = String(tag).split(/[-_]/);
+		if (!/^[A-Za-z]{2,3}$/.test(parts[0] || '')) return null;
+		const region = parts.slice(1).find(p => /^([A-Za-z]{2}|[0-9]{3})$/.test(p));
+		return region ? `${parts[0].toLowerCase()}-${region.toUpperCase()}` : parts[0].toLowerCase();
+	};
+	const readLocale = async () =>
+	{
+		const tag = await call('HarmonyLocale.GetSystemLocale').catch(() => '');
+		const locale = fromSystemLocale(tag);
+		if (locale != null) return locale;
+		const lang = await call('OhosI18nAdapter.GetLocaleLang');
+		if (!/^[A-Za-z]{2,3}$/.test(lang)) return null;
+		const region = await call('OhosI18nAdapter.getLocaleRegion').catch(() => '');
+		return /^[A-Za-z0-9]{2,3}$/.test(region) ? `${lang.toLowerCase()}-${region.toUpperCase()}` : lang.toLowerCase();
+	};
+	let busy = false;
+	const check = async () =>
+	{
+		if (busy) return;
+		busy = true;
+		try
+		{
+			const locale = await readLocale();
+			if (locale == null) return;
+			if (locale === systemLocale) return;
+			const first = systemLocale == null;
+			systemLocale = locale;
+			if (first && locale.toLowerCase() === String(app.getLocale()).toLowerCase()) return;
+			const name = harmonyAppName(app);
+			if (runtimeTray && !runtimeTray.isDestroyed()) runtimeTray.setToolTip(name);
+			for (const win of BrowserWindow.getAllWindows())
+			{
+				if (win.isDestroyed()) continue;
+				win.setTitle(name);
+				win.webContents.send('systemLanguage', locale);
+			}
+		}
+		catch (e)
+		{
+			console.warn('harmony language: system language query failed', e);
+		}
+		finally
+		{
+			busy = false;
+		}
+	};
+	check();
+	app.on('browser-window-focus', () => check());
+	const timer = setInterval(check, 5000);
+	app.once('will-quit', () => clearInterval(timer));
 }
 
 // 键盘快捷键：鸿蒙运行时把硬件键盘的 Ctrl/Alt 组合转给 Chromium 时丢了修饰键标志

@@ -19,6 +19,7 @@ import { DisplayAdapterBind } from '../jsbindings/DisplayAdapterBind';
 import { DragDropAdapterBind } from '../jsbindings/DragDropAdapterBind';
 import { ElectronAppAdapterBind } from '../jsbindings/ElectronAppAdapterBind';
 import { EtsBridgeAdapterBind } from '../jsbindings/EtsBridgeAdapterBind';
+import { SystemLocaleBridge } from '../common/SystemLocaleBridge';
 import { FileManagerAdapterBind } from '../jsbindings/FileManagerAdapterBind';
 import { FilePickerAdapterBind } from '../jsbindings/FilePickerAdapterBind';
 import { FontAdapterBind } from '../jsbindings/FontAdapterBind';
@@ -60,6 +61,7 @@ export class JsBindingMethod {
     DragDropAdapterBind.bind();
     ElectronAppAdapterBind.bind();
     EtsBridgeAdapterBind.bind();
+    SystemLocaleBridge.bind();
     FileManagerAdapterBind.bind();
     FilePickerAdapterBind.bind();
     FontAdapterBind.bind();

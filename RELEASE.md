@@ -1,11 +1,11 @@
 # 架构图编辑器（鸿蒙 PC）：上架准备清单（包名 com.neuohos.drawio）
 
-## 当前上架状态（2026-11-11）
+## 当前上架状态（2026-11-23）
 
 **应用名称**：架构图编辑器（英文 Diagram Editor）　**包名**：`com.neuohos.drawio`　**版本**：32.4.1（3241001）　**vendor**：`neuohos`
 
 已就绪：
-- 上传包：`artifacts/DiagramEditor-32.4.1-release-signed.app`（2026-11-11 重建，SHA-256 `ebfe525c7e0958fe07818b60cdee3f16f35996b7d057509da64e34a017808e3f`；release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过；包内无源码文件；资源索引中无旧名）。
+- 上传包：`artifacts/DiagramEditor-32.4.1-release-signed.app`（2026-11-23 重建，SHA-256 `9ff84e81e772c8b189d7bf5e45655bafb6f12aa15f52b6a3354d699c7d815ff0`；release 模式、发布证书签名、内嵌 6 项 ACL 的 app_gallery Profile，`verify-app` 通过；包内无源码文件）。
 - 受限权限：Profile 含 `kernel.ALLOW_WRITABLE_CODE_MEMORY`、`FILE_ACCESS_PERSIST`、`READ_PASTEBOARD`、`READ_WRITE_DOCUMENTS/DOWNLOAD/DESKTOP_DIRECTORY`，与工程声明一一对应；坚盾降级、API26 `.permission` 段均已完成。
 - 商店素材：名称、原创图标、5 张截图（三种尺寸）、简介/介绍/关键词/新版本特性（`store-listing/`）。
 - 隐私政策：https://red-sa1t.github.io/drawio-in-harmony/privacy.html （源 `docs/privacy.html`）。
@@ -29,6 +29,15 @@ AGC 审核驳回处理（2026-11-09 ~ 11-11，第二轮）：
   - 编辑器界面：打包时把字符串表 `resources/dia*.txt` 中独立出现的"draw.io"（仅值、不含键名与网址）替换为应用名；`Editor.prototype.appName` 改为应用名（内部服务名 `getServiceName()` 保持 "draw.io"，功能分支依赖它）；模板对话框分类标题改用资源字符串；打开文件对话框类型名改为"绘图"；"帮助 > 网站 / 支持"改指向本项目主页与 GitHub Issues；打印为 PDF 默认文件名改为 `diagram.pdf`。
   - 商店素材：介绍、简介、关键词、隐私政策、项目主页去掉 draw.io / Harmony；展示图左上角改为新名，原截图的旧标题栏裁去（未改字）。上游署名保留在 LICENSE、THIRD_PARTY_NOTICES 与源码仓库中（许可证要求）。
   - 验证：真机（租期结束前）确认桌面/开始菜单、标题栏、最近任务列表为"架构图编辑器"；其余编辑器层改动用本机 Windows Electron 37 加载同一 `app.asar` 验证（中、英文环境）：应用名、字符串替换、布局补丁、"支持"链接均正确，界面可见文本不含 draw.io。
+
+语言跟随系统修复（2026-11-23）：
+- **问题**：设置 › 语言 › 自动（跟随系统）下，在系统设置里改语言，已运行的应用不跟随；另外在应用里重新选"自动"会立即变成英文，要重启才回到系统语言。
+- **原因**：① 系统语言只在创建窗口时经 `app.getLocale()` 传给页面一次（`urlParams.appLang`），Chromium 的语言在进程启动时固定，之后没有任何更新途径；窗口标题、托盘提示的应用名同样只按启动时的语言定。② 选"自动"时上游把语言设为空串，资源加载器对空串回退到英文默认资源包。
+- **修复**：
+  - 宿主新增 `web_engine/.../common/SystemLocaleBridge.ets`，绑定 `HarmonyLocale.GetSystemLocale`，每次调用读 `i18n.System.getSystemLocale()`（当前系统设置，不写日志）。
+  - 主进程 `installHarmonyLanguageFollow`（`harmony-runtime.js`）：窗口获得焦点时和每 5 秒经 `callArkTSFunction` 读系统语言（该绑定不可用时退回 `OhosI18nAdapter.GetLocaleLang/getLocaleRegion`）；变化后更新所有窗口标题与托盘提示，并向各窗口发 `systemLanguage` 消息；之后新建的窗口也用最新系统语言。
+  - 编辑器（打包时追加到 `app.min.js`）：收到 `systemLanguage` 且语言设置为"自动"时就地切换界面语言（重新加载资源包并触发 `languageChanged`，不重启、不丢编辑内容）；手动指定的语言不受影响；选"自动"时直接解析为当前系统语言；`Editor.appName` 随界面语言显示"架构图编辑器 / Diagram Editor"。
+- **验证**（设备租期已结束，未在真机上验证）：本机 Windows Electron 37 加载同一 `app.asar`，经主进程向窗口发送语言变化消息：自动模式下 中文→英文→中文 界面实时切换；手动指定德语时系统语言变化不影响；运行中重新选"自动"得到当前系统语言而非英文。主进程轮询与通知逻辑用模拟 electron 对象单测通过（变化只通知一次、绑定不可用时回退、无效值忽略）。release 构建成功，新 ArkTS 文件编译通过。**需在真机（华为云调试）上实测：系统设置切换语言后返回应用，界面与标题栏应自动切换。**
 
 提交前仍需完成：
 1. ~~**真机回归（release 构建 + 调试签名）**~~：已完成（2026-11-06，HAD-W24）。冷启动/JIT 授权、新建与插入、三目录外保存、原地保存、PNG 导出、打印为 PDF、最近文件、强制结束后草稿恢复全部通过，无崩溃；剪贴板图形复制粘贴因测试工具无法注入 Ctrl 组合键未自动化，10-14 人工回归已通过，上传前建议手动复核一次。报告与截图见 `validation/release-regression-1106/REPORT.md`。

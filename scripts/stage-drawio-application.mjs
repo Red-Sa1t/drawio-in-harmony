@@ -96,10 +96,53 @@ const layoutShim = '\n;if(typeof EditorUi!=="undefined"&&typeof EditorUi.prototy
   '{EditorUi.prototype.getSelectedLayoutContainer=function(){' +
   'var c=this.getSelectedLayoutContainers();return 1==c.length?c[0]:null;};}\n';
 // Editor.appName ("draw.io") is the display name in editor messages; it must
-// match the app name (AppScope app_name per locale). getServiceName() keeps
-// "draw.io" because the editor branches on it internally.
-const appNameShim = ';if(typeof Editor!=="undefined"){Editor.prototype.appName=' +
-  '/^zh/i.test(String(mxClient.language||navigator.language||""))?"架构图编辑器":"Diagram Editor";}\n';
+// match the app name (AppScope app_name per locale) and follow the UI language.
+// getServiceName() keeps "draw.io" because the editor branches on it internally.
+//
+// Language "Automatic" (Extras > Language): upstream resolves it once from
+// urlParams.appLang when the page loads, and choosing it at runtime sets the
+// language to "" so the English default bundle loads until a restart. The
+// patch resolves "" to the system language, and switches the UI in place when
+// the main process reports a new system language ("systemLanguage" message,
+// installHarmonyLanguageFollow) while the setting is Automatic.
+const appNameShim = String.raw`
+;(function(){
+if(typeof Editor==="undefined"||typeof EditorUi==="undefined")return;
+Object.defineProperty(Editor.prototype,"appName",{configurable:true,
+  get:function(){return /^zh/i.test(String(mxClient.language||""))?"架构图编辑器":"Diagram Editor";},
+  set:function(){}});
+function systemCode(tag){
+  var t=String(tag||"").toLowerCase().replace("_","-");var i=t.indexOf("-");
+  return 0<i?t.substring(0,i):t;}
+function isAutomatic(){
+  if(null!=urlParams.lang)return false;
+  var s=null;try{s=mxSettings.getLanguage();}catch(e){}
+  return null==s||""===s;}
+function applyLanguage(ui,code,persist,value){
+  if(!ui.spinner.spin(document.body,mxResources.get("working")))return;
+  if(persist){mxSettings.setLanguage(value);mxSettings.save();}
+  mxClient.language=code;window.mxLanguage=code;mxResources.loadDefaultBundle=false;
+  mxResources.add(RESOURCE_BASE,null,function(){
+    ui.spinner.stop();ui.updateOfflineLanguages();
+    for(;null!=ui.dialog;){var d=ui.dialog;ui.hideDialog(true);if(ui.dialog==d)break;}
+    ui.fireEvent(new mxEventObject("languageChanged"));
+    null==ui.getCurrentFile()&&"function"===typeof ui.showSplash&&ui.showSplash();});}
+var persistLanguage=EditorUi.prototype.setAndPersistLanguage;
+EditorUi.prototype.setAndPersistLanguage=function(c){
+  if(""!==c&&null!=c)return persistLanguage.apply(this,arguments);
+  applyLanguage(this,systemCode(urlParams.appLang)||"en",true,c);};
+var init=EditorUi.prototype.init;
+EditorUi.prototype.init=function(){
+  var r=init.apply(this,arguments);var ui=this;
+  if(typeof electron!=="undefined"&&electron&&"function"===typeof electron.registerMsgListener)
+    electron.registerMsgListener("systemLanguage",function(tag){
+      if("string"!==typeof tag||""===tag)return;
+      urlParams.appLang=tag;
+      var code=systemCode(tag);
+      if(isAutomatic()&&code!=mxClient.language)applyLanguage(ui,code,false);});
+  return r;};
+})();
+`;
 
 // AppGallery guidelines 9.4/9.5: "draw.io" is a JGraph Ltd trademark, so the
 // editor's UI strings name the app instead. Only the stand-alone word is
